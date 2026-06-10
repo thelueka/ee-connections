@@ -6,8 +6,8 @@ let mainWindow;
 let tray;
 let reminderInterval;
 
-// Reminder interval: check every 2 hours (in milliseconds)
-const REMINDER_INTERVAL_MS = 2 * 60 * 60 * 1000;
+// Reminder interval: check every 30 minutes (in milliseconds)
+const REMINDER_INTERVAL_MS = 30 * 60 * 1000;
 
 // Remote questions URL — raw GitHub file
 // Update this after creating your repo (format: https://raw.githubusercontent.com/USERNAME/REPO/main/data/questions.json)
