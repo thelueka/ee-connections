@@ -398,5 +398,309 @@
     "options": ["Frequency where gain = 0 dB", "Frequency where phase = 0°", "The natural frequency", "The resonant frequency"],
     "answer": 0,
     "explanation": "The gain crossover frequency is where the open-loop gain magnitude equals 1 (0 dB). It's important because the phase margin is measured at this frequency, and it approximates the closed-loop bandwidth."
+  },
+  {
+    "id": 51,
+    "category": "aerospace",
+    "question": "In the OISL power tree, what is the first power distribution unit that receives bus voltage from FRED?",
+    "options": ["OTAC", "CPA MAIN", "COMINS", "OHA"],
+    "answer": 2,
+    "explanation": "FRED provides bus voltage to COMINS, which then distributes power downstream to OTAC and other subsystems."
+  },
+  {
+    "id": 52,
+    "category": "aerospace",
+    "question": "In the OISL Production Power Tree, what is the difference between the X-Side and Y-Side?",
+    "options": ["X-Side has more amplifiers", "Y-Side has HDRM circuitry removed", "X-Side operates at lower voltage", "Y-Side has additional load switches"],
+    "answer": 1,
+    "explanation": "The Y-Side is the same as the X-Side with HDRM (Hold Down and Release Mechanism) circuitry removed, providing partial redundancy in the power architecture."
+  },
+  {
+    "id": 53,
+    "category": "aerospace",
+    "question": "Who is the coolest OISL avionics hardware engineer?",
+    "options": ["Nels", "Connor", "Kelly", "Michael"],
+    "answer": 2,
+    "explanation": "Duh."
+  },
+  {
+    "id": 54,
+    "category": "power_electronics",
+    "question": "In the OISL power tree, what types of power conversion are used between COMINS and OTAC?",
+    "options": ["Only linear regulators", "Only DC/DC converters", "DC/DC converters, linear regulators, and gate drivers", "Only load switches"],
+    "answer": 2,
+    "explanation": "The OISL power distribution between COMINS and OTAC uses a combination of DC/DC converters for efficient voltage step-down, linear regulators for low-noise rails, and gate drivers for controlling switching elements."
+  },
+  {
+    "id": 55,
+    "category": "aerospace",
+    "question": "Which of the following is NOT a downstream subsystem powered from the OHA in the OISL power tree?",
+    "options": ["CFSM", "RFSM", "COMINS", "ECTS"],
+    "answer": 2,
+    "explanation": "COMINS is upstream of OTAC in the power tree, not downstream of OHA. The downstream subsystems from OHA include CFSM, RFSM, REO, TFSM, FTS, and ECTS."
+  },
+  {
+    "id": 56,
+    "category": "power_electronics",
+    "question": "What is the purpose of a load switch in a satellite power distribution tree like OISL?",
+    "options": ["Step up voltage", "Provide galvanic isolation", "Enable/disable power to subsystems for fault protection and sequencing", "Convert AC to DC"],
+    "answer": 2,
+    "explanation": "Load switches in satellite power trees allow controlled power sequencing during startup and provide fault isolation — if a downstream subsystem shorts, the load switch can disconnect it to protect the rest of the bus."
+  },
+  {
+    "id": 57,
+    "category": "power_electronics",
+    "question": "Why would a satellite power system like OISL use linear regulators downstream of DC/DC converters?",
+    "options": ["Higher efficiency", "Lower cost", "Lower output noise for sensitive analog/optical circuits", "Higher output current"],
+    "answer": 2,
+    "explanation": "Linear regulators provide much lower output noise than switching converters. In optical communication systems like OISL, sensitive analog and optical circuits (amplifiers, laser drivers) require clean power rails, so LDOs are used as post-regulation after efficient DC/DC conversion."
+  },
+  {
+    "id": 58,
+    "category": "aerospace",
+    "question": "What is the role of FRED in the OISL power architecture?",
+    "options": ["It is the optical receiver", "It is the primary bus power source providing initial voltage to the power tree", "It is a backup power controller", "It manages thermal regulation"],
+    "answer": 1,
+    "explanation": "FRED is at the top of the OISL power tree, providing bus voltage from the spacecraft power system to COMINS and the rest of the OISL power distribution network."
+  },
+  {
+    "id": 59,
+    "category": "aerospace",
+    "question": "What is a Single Event Upset (SEU) in spacecraft electronics?",
+    "options": ["A permanent short circuit caused by radiation", "A transient bit-flip in memory or logic caused by a single energetic particle", "A thermal failure due to solar heating", "A software bug triggered by cosmic rays"],
+    "answer": 1,
+    "explanation": "An SEU is a non-destructive radiation effect where a single high-energy particle (proton or heavy ion) deposits enough charge in a sensitive node to flip a stored bit. The device isn't damaged — the data is just corrupted."
+  },
+  {
+    "id": 60,
+    "category": "aerospace",
+    "question": "What does TID stand for in space radiation effects?",
+    "options": ["Transient Ion Displacement", "Total Ionizing Dose", "Thermal Induced Degradation", "Trapped Ion Density"],
+    "answer": 1,
+    "explanation": "Total Ionizing Dose (TID) is the cumulative energy deposited by ionizing radiation over the mission lifetime. It causes gradual degradation including threshold voltage shifts, increased leakage current, and reduced transistor performance."
+  },
+  {
+    "id": 61,
+    "category": "aerospace",
+    "question": "What is Single Event Latchup (SEL) and why is it dangerous?",
+    "options": ["A temporary glitch that self-corrects", "A software crash caused by memory corruption", "A momentary voltage spike on the power bus", "Activation of a parasitic SCR structure that creates a low-impedance path, potentially destroying the device"],
+    "answer": 3,
+    "explanation": "SEL occurs when a radiation strike activates a parasitic silicon controlled rectifier (SCR) in CMOS circuitry, creating a high-current path from supply to ground. If not quickly detected and power-cycled, it can destroy the device through thermal runaway."
+  },
+  {
+    "id": 62,
+    "category": "aerospace",
+    "question": "What is Triple Modular Redundancy (TMR) in radiation-hardened design?",
+    "options": ["Using three separate power supplies", "Tripling the oxide thickness", "Replicating logic three times and using majority voting to mask single errors", "Running the same computation three times sequentially"],
+    "answer": 2,
+    "explanation": "TMR instantiates three identical copies of a logic block and feeds their outputs to a majority voter. If one copy is upset by radiation, the other two outvote it. This masks single-event upsets at the cost of roughly 3x area and power."
+  },
+  {
+    "id": 63,
+    "category": "aerospace",
+    "question": "The Van Allen radiation belts primarily consist of:",
+    "options": ["Gamma rays and X-rays", "Trapped protons in the inner belt and electrons in the outer belt", "Neutrons and alpha particles", "Only solar wind plasma"],
+    "answer": 1,
+    "explanation": "The inner Van Allen belt (1,000-6,000 km) is dominated by high-energy trapped protons, while the outer belt (13,000-60,000 km) is dominated by high-energy electrons. Both are trapped by Earth's magnetic field."
+  },
+  {
+    "id": 64,
+    "category": "aerospace",
+    "question": "Which radiation effect causes gradual threshold voltage shifts in MOSFETs over a satellite's lifetime?",
+    "options": ["Single Event Upset", "Single Event Latchup", "Total Ionizing Dose (TID)", "Displacement Damage"],
+    "answer": 2,
+    "explanation": "TID causes charge to accumulate in gate oxide and isolation oxides over time, shifting threshold voltages, increasing leakage, and eventually causing parametric or functional failure."
+  },
+  {
+    "id": 65,
+    "category": "aerospace",
+    "question": "What is Displacement Damage (DD) in space radiation?",
+    "options": ["Physical movement of a satellite due to radiation pressure", "Warping of PCB substrates from thermal cycling", "Delamination of solder joints", "Atomic displacement in the crystal lattice by non-ionizing energy loss"],
+    "answer": 3,
+    "explanation": "Displacement Damage occurs when energetic particles (especially protons and neutrons) knock atoms out of their crystal lattice positions, creating defects that degrade minority carrier lifetime, increase dark current in sensors, and reduce solar cell efficiency."
+  },
+  {
+    "id": 66,
+    "category": "aerospace",
+    "question": "What is the typical unit used to measure Total Ionizing Dose in space electronics?",
+    "options": ["Sieverts (Sv)", "Rad(Si) or Gray", "Electron-volts (eV)", "Watts per square meter"],
+    "answer": 1,
+    "explanation": "TID is measured in rad(Si) — radiation absorbed dose in silicon — where 1 rad = 0.01 J/kg of absorbed energy. The SI equivalent is Gray (1 Gy = 100 rad). Typical LEO missions accumulate 10-100 krad(Si) over their lifetime depending on shielding."
+  },
+  {
+    "id": 67,
+    "category": "aerospace",
+    "question": "Why are LEO satellites in high-inclination orbits exposed to more radiation than equatorial LEO?",
+    "options": ["They fly higher", "They pass through the South Atlantic Anomaly and polar cusps where radiation belts dip lower", "They move faster", "The sun is more intense at the poles"],
+    "answer": 1,
+    "explanation": "High-inclination orbits pass through the South Atlantic Anomaly (where the inner Van Allen belt dips to ~200 km altitude) and polar regions where solar energetic particles can reach lower altitudes along open magnetic field lines."
+  },
+  {
+    "id": 68,
+    "category": "aerospace",
+    "question": "What is Radiation Hardening by Design (RHBD)?",
+    "options": ["Adding lead shielding around all components", "Only using vacuum tubes instead of transistors", "Operating electronics at cryogenic temperatures", "Using special circuit design techniques on commercial foundries to improve radiation tolerance"],
+    "answer": 3,
+    "explanation": "RHBD uses layout and circuit design techniques (guard rings, enclosed transistors, redundancy, DICE cells, TMR) on standard commercial foundries to achieve radiation tolerance without requiring a special rad-hard fabrication process."
+  },
+  {
+    "id": 69,
+    "category": "aerospace",
+    "question": "What is a DICE (Dual Interlocked Cell) latch used for in space electronics?",
+    "options": ["Doubling clock speed", "Storing data redundantly so a single particle strike cannot flip the stored bit", "Encrypting telemetry data", "Reducing power consumption"],
+    "answer": 1,
+    "explanation": "A DICE latch stores each bit using two redundant nodes with interlocked feedback. A single particle can only upset one node, and the other node restores the correct state through the feedback path, making it inherently SEU-tolerant."
+  },
+  {
+    "id": 70,
+    "category": "aerospace",
+    "question": "What is the primary radiation concern for electronics in geostationary orbit (GEO)?",
+    "options": ["Only protons from the inner belt", "High-energy trapped electrons from the outer radiation belt and solar energetic particles", "Neutron bombardment from Earth's atmosphere", "Ultraviolet light damage"],
+    "answer": 1,
+    "explanation": "GEO (~36,000 km) sits in or near the outer Van Allen belt, where high-energy trapped electrons dominate. During solar storms, energetic protons and heavy ions from solar particle events also pose significant risks."
+  },
+  {
+    "id": 71,
+    "category": "aerospace",
+    "question": "What is a Single Event Transient (SET) and where is it most problematic?",
+    "options": ["A permanent failure in a power supply", "A transient voltage glitch on a combinational logic or analog node caused by a particle strike", "A one-time calibration error", "A mechanical vibration event"],
+    "answer": 1,
+    "explanation": "A SET is a transient voltage pulse generated when a particle deposits charge on a combinational logic or analog node. It's especially dangerous in analog circuits and high-speed digital logic where it can propagate and be captured by a downstream latch."
+  },
+  {
+    "id": 72,
+    "category": "aerospace",
+    "question": "How does aluminum shielding protect spacecraft electronics from radiation?",
+    "options": ["It reflects all radiation like a mirror", "It completely blocks all ionizing radiation", "It absorbs radiation and converts it to heat with no side effects", "It attenuates lower-energy particles but can generate secondary radiation from higher-energy particles"],
+    "answer": 3,
+    "explanation": "Aluminum shielding stops lower-energy protons and electrons but high-energy particles can interact with the shield to produce secondary particles (bremsstrahlung, neutrons) that may increase dose. There's an optimal thickness beyond which more shielding doesn't help."
+  },
+  {
+    "id": 73,
+    "category": "aerospace",
+    "question": "Why might a satellite designer choose COTS parts with error correction over full rad-hard components?",
+    "options": ["COTS parts are always more radiation-tolerant", "COTS parts offer better performance, lower cost, and shorter lead times, with mitigation techniques closing the reliability gap", "Rad-hard parts are no longer manufactured", "COTS parts consume less power in all cases"],
+    "answer": 1,
+    "explanation": "Rad-hard parts are expensive, have long lead times, and lag several technology generations behind commercial silicon. For LEO constellations, COTS parts with ECC memory, TMR, watchdog timers, and system-level redundancy can achieve acceptable reliability at a fraction of the cost."
+  },
+  {
+    "id": 74,
+    "category": "optical_communications",
+    "question": "What is the primary gain medium in an Erbium-Doped Fiber Amplifier (EDFA)?",
+    "options": ["Silicon dioxide core", "Germanium-doped cladding", "Ytterbium ions in silica", "Erbium ions (Er³⁺) doped into a silica fiber core"],
+    "answer": 3,
+    "explanation": "EDFAs use trivalent erbium ions (Er³⁺) doped into the silica glass fiber core as the gain medium. When pumped to an excited state, these ions provide stimulated emission amplification in the 1530-1610 nm wavelength range."
+  },
+  {
+    "id": 75,
+    "category": "optical_communications",
+    "question": "What are the two standard pump wavelengths used for EDFAs?",
+    "options": ["1310 nm and 1550 nm", "808 nm and 1064 nm", "980 nm and 1480 nm", "532 nm and 850 nm"],
+    "answer": 2,
+    "explanation": "EDFAs are pumped at either 980 nm (for lower noise figure) or 1480 nm (for higher power efficiency and simpler coupling). The 980 nm pump excites erbium to the ⁴I₁₁/₂ level, while 1480 nm pumps directly to the upper ⁴I₁₃/₂ level."
+  },
+  {
+    "id": 76,
+    "category": "optical_communications",
+    "question": "What is Amplified Spontaneous Emission (ASE) in an EDFA?",
+    "options": ["The useful signal output of the amplifier", "Unwanted broadband noise generated by spontaneous emission that gets amplified along with the signal", "A feedback mechanism that stabilizes gain", "Stimulated Raman scattering in the pump fiber"],
+    "answer": 1,
+    "explanation": "ASE is broadband noise generated when spontaneously emitted photons from excited erbium ions are amplified as they travel through the gain fiber. ASE degrades the optical signal-to-noise ratio (OSNR) and is a fundamental noise source in all optical amplifiers."
+  },
+  {
+    "id": 77,
+    "category": "optical_communications",
+    "question": "Why does a 980 nm pump provide a lower noise figure than a 1480 nm pump in an EDFA?",
+    "options": ["980 nm photons carry more energy", "980 nm pumping achieves complete population inversion at the input, minimizing spontaneous emission", "1480 nm causes more Rayleigh scattering", "980 nm lasers are simply more stable"],
+    "answer": 1,
+    "explanation": "980 nm pumping uses a three-level scheme that can achieve nearly complete population inversion in the erbium ions. This means fewer ions in the ground state to absorb signal photons at the amplifier input, resulting in a lower noise figure (approaching the 3 dB quantum limit)."
+  },
+  {
+    "id": 78,
+    "category": "optical_communications",
+    "question": "What wavelength range does the C-band cover in optical communications?",
+    "options": ["1260-1360 nm", "1525-1565 nm", "1565-1625 nm", "1460-1530 nm"],
+    "answer": 1,
+    "explanation": "The C-band (Conventional band) spans approximately 1525-1565 nm. This is where EDFAs provide their highest gain and flattest gain profile, making it the most widely used band in long-haul fiber communications."
+  },
+  {
+    "id": 79,
+    "category": "optical_communications",
+    "question": "In a multi-stage EDFA, why is an isolator placed between stages?",
+    "options": ["To boost pump power between stages", "To prevent backward-traveling ASE from degrading the noise figure of earlier stages", "To convert wavelengths between stages", "To equalize polarization"],
+    "answer": 1,
+    "explanation": "Backward-propagating ASE from a later high-gain stage can saturate an earlier stage and dramatically increase its noise figure. Isolators block this backward ASE, allowing each stage to be independently optimized for noise or power."
+  },
+  {
+    "id": 80,
+    "category": "optical_communications",
+    "question": "What is a Fiber Bragg Grating (FBG) used for in pump laser diodes?",
+    "options": ["Amplifying the pump signal", "Splitting the pump into multiple wavelengths", "Converting electrical signals to optical", "Stabilizing the pump wavelength by providing narrow-band optical feedback"],
+    "answer": 3,
+    "explanation": "An FBG written into the pump fiber reflects a narrow wavelength band back into the laser diode, locking its emission wavelength. This prevents wavelength drift with temperature, which is critical since EDFA pump absorption is wavelength-sensitive (especially at 980 nm)."
+  },
+  {
+    "id": 81,
+    "category": "optical_communications",
+    "question": "What is the purpose of a WDM coupler in an EDFA?",
+    "options": ["It combines the pump light and signal light into the same erbium-doped fiber", "It separates different signal channels for independent amplification", "It attenuates the signal to prevent saturation", "It monitors output power levels"],
+    "answer": 0,
+    "explanation": "A Wavelength Division Multiplexing (WDM) coupler combines the pump wavelength (980 or 1480 nm) with the signal wavelength (~1550 nm) so both propagate through the erbium-doped fiber simultaneously. The pump excites the erbium while the signal extracts gain via stimulated emission."
+  },
+  {
+    "id": 82,
+    "category": "optical_communications",
+    "question": "In a typical three-type EDFA deployment, what are the roles of the preamplifier, line amplifier, and booster?",
+    "options": ["All three are identical in design", "Preamplifier: low noise at receiver; Line: compensates span loss; Booster: high output power at transmitter", "Preamplifier: highest power; Line: wavelength conversion; Booster: lowest noise", "They are used for C-band, L-band, and S-band respectively"],
+    "answer": 1,
+    "explanation": "A booster (power amp) launches maximum power into the fiber, a line amplifier compensates for span loss mid-link, and a preamplifier at the receiver is optimized for minimum noise figure to preserve SNR on weak incoming signals."
+  },
+  {
+    "id": 83,
+    "category": "optical_communications",
+    "question": "What is gain flattening in an EDFA and why is it needed?",
+    "options": ["Reducing total gain to prevent damage", "It's not needed in modern EDFAs", "Limiting output power to meet eye safety regulations", "Equalizing gain across all wavelength channels using a filter, because erbium's gain spectrum is naturally uneven"],
+    "answer": 3,
+    "explanation": "Erbium has a non-uniform gain spectrum — some wavelengths receive more gain than others. In WDM systems, this causes channel power divergence after multiple amplifier spans. Gain Flattening Filters (GFFs) with the inverse spectral shape equalize channel powers."
+  },
+  {
+    "id": 84,
+    "category": "optical_communications",
+    "question": "What is the theoretical minimum noise figure of an optical amplifier?",
+    "options": ["0 dB", "3 dB", "6 dB", "10 dB"],
+    "answer": 1,
+    "explanation": "The quantum limit for an ideal optical amplifier's noise figure is 3 dB (a factor of 2), arising from the fundamental requirement of spontaneous emission in any amplifying medium. Practical EDFAs achieve 4-6 dB with 980 nm pumping."
+  },
+  {
+    "id": 85,
+    "category": "optical_communications",
+    "question": "Why do multi-stage EDFAs use a high numerical aperture (NA) fiber in the input stage and low NA in the output stage?",
+    "options": ["High NA is cheaper for the first stage", "High NA provides higher gain and lower noise at low signal levels; low NA handles higher power in the output stage without nonlinear effects", "It's purely for mechanical splicing compatibility", "Low NA fibers don't exist for erbium doping"],
+    "answer": 1,
+    "explanation": "High NA erbium fiber has stronger pump-signal overlap and higher gain per unit length, ideal for low-noise amplification of weak input signals. Low NA fiber in the output stage has a larger mode field area, reducing nonlinear effects at high output powers."
+  },
+  {
+    "id": 86,
+    "category": "optical_communications",
+    "question": "What happens to an EDFA's gain when the total input signal power increases significantly?",
+    "options": ["Gain increases proportionally", "Gain remains perfectly constant", "The amplifier fails permanently", "Gain decreases due to saturation as the pump can no longer maintain full population inversion"],
+    "answer": 3,
+    "explanation": "EDFAs exhibit gain saturation — as input power rises, the stimulated emission rate depletes the excited erbium population faster than the pump can replenish it, reducing the available gain. This is characterized by the saturation output power (typically +13 to +23 dBm)."
+  },
+  {
+    "id": 87,
+    "category": "optical_communications",
+    "question": "What is the L-band in optical communications and how does it relate to EDFAs?",
+    "options": ["1260-1360 nm, used for short-reach links", "1565-1625 nm, amplified by EDFAs with longer erbium fiber and typically 1480 nm pumping", "1625-1675 nm, used only for OTDR testing", "A microwave frequency band unrelated to fiber optics"],
+    "answer": 1,
+    "explanation": "The L-band (Long-wavelength band, 1565-1625 nm) extends EDFA capacity beyond C-band. L-band EDFAs require longer erbium fiber lengths (often 50-100m vs 5-15m for C-band) and typically use 1480 nm pumping for better efficiency at these longer wavelengths."
+  },
+  {
+    "id": 88,
+    "category": "optical_communications",
+    "question": "What is the role of an optical isolator at the output of an EDFA?",
+    "options": ["It increases output power by 3 dB", "It converts the signal from single-mode to multi-mode", "It prevents back-reflections from re-entering the amplifier and causing instability or lasing", "It filters out the pump wavelength"],
+    "answer": 2,
+    "explanation": "Back-reflections from connectors or fiber discontinuities can re-enter the amplifier, causing gain ripple, instability, or even parasitic lasing if the round-trip gain exceeds loss. An isolator (typically >30 dB isolation) blocks these reflections."
   }
 ]
