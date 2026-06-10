@@ -1,0 +1,39 @@
+{
+  "name": "ee-connections",
+  "version": "1.0.0",
+  "description": "Daily electrical engineering trivia and practice questions",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "build": {
+    "appId": "com.eeconnections.app",
+    "productName": "EE Connections",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "data/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "renderer/icon.ico"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "devDependencies": {
+    "electron": "^42.4.0",
+    "electron-builder": "^26.15.2"
+  }
+}

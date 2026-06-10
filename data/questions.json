@@ -1,0 +1,402 @@
+[
+  {
+    "id": 1,
+    "category": "circuit_analysis",
+    "question": "What is the equivalent resistance of a 6Ω and 3Ω resistor in parallel?",
+    "options": ["2Ω", "4.5Ω", "9Ω", "1Ω"],
+    "answer": 0,
+    "explanation": "For two resistors in parallel: R_eq = (R1 × R2) / (R1 + R2) = (6 × 3) / (6 + 3) = 18/9 = 2Ω."
+  },
+  {
+    "id": 2,
+    "category": "semiconductor_physics",
+    "question": "In a silicon PN junction at room temperature, the built-in potential is approximately:",
+    "options": ["0.3V", "0.7V", "1.1V", "0.5V"],
+    "answer": 1,
+    "explanation": "Silicon has a bandgap of ~1.1eV. The built-in potential of a typical silicon PN junction is approximately 0.6–0.7V at room temperature, depending on doping levels."
+  },
+  {
+    "id": 3,
+    "category": "digital_logic",
+    "question": "How many flip-flops are needed to build a modulo-16 counter?",
+    "options": ["2", "3", "4", "16"],
+    "answer": 2,
+    "explanation": "A modulo-N counter needs ⌈log₂(N)⌉ flip-flops. log₂(16) = 4, so 4 flip-flops are needed."
+  },
+  {
+    "id": 4,
+    "category": "signals_and_systems",
+    "question": "What is the Nyquist sampling rate for a signal with a maximum frequency of 4kHz?",
+    "options": ["2kHz", "4kHz", "8kHz", "16kHz"],
+    "answer": 2,
+    "explanation": "The Nyquist theorem states that the sampling rate must be at least twice the maximum frequency: fs ≥ 2 × fmax = 2 × 4kHz = 8kHz."
+  },
+  {
+    "id": 5,
+    "category": "power_electronics",
+    "question": "A buck converter has an input voltage of 12V and a duty cycle of 0.5. What is the output voltage (ideal)?",
+    "options": ["6V", "12V", "24V", "3V"],
+    "answer": 0,
+    "explanation": "For an ideal buck converter, Vout = D × Vin = 0.5 × 12V = 6V. The buck converter always steps voltage down."
+  },
+  {
+    "id": 6,
+    "category": "electromagnetics",
+    "question": "What is the speed of an electromagnetic wave in free space?",
+    "options": ["3 × 10⁶ m/s", "3 × 10⁸ m/s", "3 × 10¹⁰ m/s", "3 × 10⁵ m/s"],
+    "answer": 1,
+    "explanation": "Electromagnetic waves travel at the speed of light in free space: c = 3 × 10⁸ m/s (approximately 299,792,458 m/s)."
+  },
+  {
+    "id": 7,
+    "category": "control_systems",
+    "question": "A system with poles only in the left-half of the s-plane is:",
+    "options": ["Unstable", "Marginally stable", "Stable", "Oscillatory"],
+    "answer": 2,
+    "explanation": "A system is stable (BIBO stable) if all poles are in the left-half plane (negative real parts). This ensures all natural response terms decay to zero over time."
+  },
+  {
+    "id": 8,
+    "category": "circuit_analysis",
+    "question": "What is the time constant of a series RC circuit with R = 10kΩ and C = 100μF?",
+    "options": ["0.1s", "1s", "10s", "0.01s"],
+    "answer": 1,
+    "explanation": "τ = RC = 10,000Ω × 100 × 10⁻⁶F = 1 second. After one time constant, the capacitor charges to ~63.2% of its final value."
+  },
+  {
+    "id": 9,
+    "category": "digital_logic",
+    "question": "What is the Boolean expression for an XOR gate?",
+    "options": ["A·B + A'·B'", "A·B' + A'·B", "A + B", "(A + B)'"],
+    "answer": 1,
+    "explanation": "XOR (exclusive OR) outputs 1 only when inputs differ: A⊕B = A·B' + A'·B. It's 1 when A=1,B=0 or A=0,B=1."
+  },
+  {
+    "id": 10,
+    "category": "semiconductor_physics",
+    "question": "Which carrier type is the majority carrier in n-type silicon?",
+    "options": ["Holes", "Electrons", "Protons", "Photons"],
+    "answer": 1,
+    "explanation": "N-type silicon is doped with donor atoms (like phosphorus) that provide extra electrons. Electrons are the majority carriers; holes are the minority carriers."
+  },
+  {
+    "id": 11,
+    "category": "power_electronics",
+    "question": "What is the main advantage of a boost converter over a linear regulator for stepping up voltage?",
+    "options": ["Lower cost", "Higher efficiency", "Simpler design", "Lower noise"],
+    "answer": 1,
+    "explanation": "Boost converters are switching regulators with typical efficiencies of 85-95%, whereas a linear regulator cannot step up voltage at all. The switching topology allows efficient voltage conversion."
+  },
+  {
+    "id": 12,
+    "category": "signals_and_systems",
+    "question": "What does a Fourier Transform convert a time-domain signal into?",
+    "options": ["Laplace domain", "Z-domain", "Frequency domain", "Discrete domain"],
+    "answer": 2,
+    "explanation": "The Fourier Transform decomposes a time-domain signal into its constituent frequency components, representing it in the frequency domain."
+  },
+  {
+    "id": 13,
+    "category": "circuit_analysis",
+    "question": "In a series RLC circuit at resonance, the impedance is:",
+    "options": ["Maximum", "Minimum (equal to R)", "Zero", "Purely reactive"],
+    "answer": 1,
+    "explanation": "At resonance, XL = XC, so they cancel. The impedance is purely resistive and equals R, which is the minimum impedance of the series RLC circuit."
+  },
+  {
+    "id": 14,
+    "category": "control_systems",
+    "question": "What does increasing the gain K in a feedback system generally do to the steady-state error?",
+    "options": ["Increases it", "Decreases it", "No effect", "Makes it oscillate"],
+    "answer": 1,
+    "explanation": "For a Type 0 system, steady-state error = 1/(1+Kp) where Kp is the position error constant proportional to K. Increasing K reduces steady-state error but may compromise stability."
+  },
+  {
+    "id": 15,
+    "category": "electromagnetics",
+    "question": "The characteristic impedance of free space is approximately:",
+    "options": ["50Ω", "75Ω", "120πΩ (≈377Ω)", "300Ω"],
+    "answer": 2,
+    "explanation": "The intrinsic impedance of free space η₀ = √(μ₀/ε₀) = 120π ≈ 377Ω. This is fundamental to antenna and wave propagation calculations."
+  },
+  {
+    "id": 16,
+    "category": "digital_logic",
+    "question": "What is the minimum number of 2-input NAND gates needed to implement an inverter?",
+    "options": ["1", "2", "3", "4"],
+    "answer": 0,
+    "explanation": "Connect both inputs of a NAND gate together: NAND(A,A) = (A·A)' = A'. One NAND gate with tied inputs acts as an inverter."
+  },
+  {
+    "id": 17,
+    "category": "semiconductor_physics",
+    "question": "What happens to the depletion region width of a PN junction under reverse bias?",
+    "options": ["Decreases", "Stays the same", "Increases", "Disappears"],
+    "answer": 2,
+    "explanation": "Reverse bias pulls majority carriers away from the junction, widening the depletion region. This increases the barrier potential and reduces current flow."
+  },
+  {
+    "id": 18,
+    "category": "power_electronics",
+    "question": "In a full-bridge rectifier, how many diodes conduct at any given time?",
+    "options": ["1", "2", "3", "4"],
+    "answer": 1,
+    "explanation": "In a full-bridge rectifier, exactly 2 diodes conduct at any instant — one in the top rail and one in the bottom rail, forming a current path through the load."
+  },
+  {
+    "id": 19,
+    "category": "signals_and_systems",
+    "question": "A causal LTI system is also BIBO stable if all poles of its transfer function are:",
+    "options": ["On the imaginary axis", "In the right-half plane", "Inside the unit circle", "In the left-half plane"],
+    "answer": 3,
+    "explanation": "For continuous-time causal LTI systems, BIBO stability requires all poles to be in the open left-half of the s-plane (negative real parts). For discrete-time, it would be inside the unit circle."
+  },
+  {
+    "id": 20,
+    "category": "circuit_analysis",
+    "question": "What is the voltage across a 5mH inductor when the current through it changes at a rate of 2A/ms?",
+    "options": ["2.5V", "10V", "0.01V", "1V"],
+    "answer": 1,
+    "explanation": "V = L × (di/dt) = 5 × 10⁻³ H × 2/10⁻³ A/s = 5 × 10⁻³ × 2000 = 10V."
+  },
+  {
+    "id": 21,
+    "category": "control_systems",
+    "question": "The Routh-Hurwitz criterion is used to determine:",
+    "options": ["Gain margin", "Phase margin", "Number of right-half plane poles", "Bandwidth"],
+    "answer": 2,
+    "explanation": "The Routh-Hurwitz criterion determines the number of poles in the right-half plane without solving the characteristic equation, indicating system stability."
+  },
+  {
+    "id": 22,
+    "category": "digital_logic",
+    "question": "What is the output of a D flip-flop when D=1 at the rising edge of the clock?",
+    "options": ["Q=0", "Q=1", "Q toggles", "Q=previous state"],
+    "answer": 1,
+    "explanation": "A D flip-flop captures the value of D at the active clock edge and transfers it to Q. If D=1 at the rising edge, then Q becomes 1."
+  },
+  {
+    "id": 23,
+    "category": "electromagnetics",
+    "question": "According to Faraday's law, an EMF is induced in a loop when:",
+    "options": ["Current flows through it", "The magnetic flux through it changes", "It's placed in a static magnetic field", "The loop is circular"],
+    "answer": 1,
+    "explanation": "Faraday's law states that EMF = -dΦ/dt. An EMF is induced only when the magnetic flux through the loop is changing with time."
+  },
+  {
+    "id": 24,
+    "category": "semiconductor_physics",
+    "question": "The Early effect in a BJT causes the collector current to:",
+    "options": ["Decrease with increasing VCE", "Increase slightly with increasing VCE", "Remain perfectly constant", "Oscillate"],
+    "answer": 1,
+    "explanation": "The Early effect (base-width modulation) causes the effective base width to decrease with increasing VCE, slightly increasing collector current. This gives the output characteristics a finite slope."
+  },
+  {
+    "id": 25,
+    "category": "power_electronics",
+    "question": "What switching device can be turned ON and OFF by gate control and handles high power?",
+    "options": ["SCR (Thyristor)", "IGBT", "Diode", "Zener diode"],
+    "answer": 1,
+    "explanation": "IGBTs can be turned ON and OFF via gate voltage, combining the high-input-impedance gate of a MOSFET with the high-current capability of a BJT. SCRs can only be turned ON by the gate — turn-off requires external commutation."
+  },
+  {
+    "id": 26,
+    "category": "circuit_analysis",
+    "question": "What is the power dissipated in a 100Ω resistor with 50mA flowing through it?",
+    "options": ["0.25W", "5W", "0.5W", "2.5W"],
+    "answer": 0,
+    "explanation": "P = I²R = (0.05)² × 100 = 0.0025 × 100 = 0.25W. Alternatively, V = IR = 5V, so P = V²/R = 25/100 = 0.25W."
+  },
+  {
+    "id": 27,
+    "category": "signals_and_systems",
+    "question": "An ideal low-pass filter with cutoff frequency fc passes:",
+    "options": ["Only frequencies above fc", "All frequencies below fc unchanged", "Only the frequency fc", "Frequencies near fc with some attenuation"],
+    "answer": 1,
+    "explanation": "An ideal low-pass filter has unity gain for all frequencies below fc and zero gain above fc, with an infinitely sharp transition (brick-wall response)."
+  },
+  {
+    "id": 28,
+    "category": "digital_logic",
+    "question": "How many addressable locations does a memory with a 10-bit address bus have?",
+    "options": ["256", "512", "1024", "2048"],
+    "answer": 2,
+    "explanation": "A 10-bit address bus can represent 2¹⁰ = 1024 unique addresses, so it can access 1024 memory locations."
+  },
+  {
+    "id": 29,
+    "category": "control_systems",
+    "question": "In a Bode plot, a pole at frequency ωp contributes what slope change?",
+    "options": ["+20 dB/decade", "-20 dB/decade", "+40 dB/decade", "-40 dB/decade"],
+    "answer": 1,
+    "explanation": "Each pole contributes a -20 dB/decade (or -6 dB/octave) slope change to the magnitude plot. Each zero contributes +20 dB/decade."
+  },
+  {
+    "id": 30,
+    "category": "electromagnetics",
+    "question": "What is the skin depth effect in conductors at high frequencies?",
+    "options": ["Current distributes uniformly", "Current concentrates near the surface", "Current flows only in the center", "No current flows"],
+    "answer": 1,
+    "explanation": "At high frequencies, alternating current tends to flow near the surface of a conductor due to eddy currents. The skin depth δ = √(2ρ/ωμ) decreases with frequency, increasing effective resistance."
+  },
+  {
+    "id": 31,
+    "category": "circuit_analysis",
+    "question": "Kirchhoff's Voltage Law (KVL) states that the sum of all voltages around any closed loop equals:",
+    "options": ["The supply voltage", "Zero", "The load voltage", "Infinity"],
+    "answer": 1,
+    "explanation": "KVL is based on conservation of energy: the algebraic sum of all voltage drops and rises around any closed loop in a circuit must equal zero."
+  },
+  {
+    "id": 32,
+    "category": "semiconductor_physics",
+    "question": "What is the typical threshold voltage of an enhancement-mode NMOS transistor?",
+    "options": ["−0.7V", "0V", "0.4–0.8V", "3.3V"],
+    "answer": 2,
+    "explanation": "Enhancement-mode NMOS transistors have a positive threshold voltage, typically 0.4–0.8V for modern processes. The gate voltage must exceed Vth to create the inversion layer (channel)."
+  },
+  {
+    "id": 33,
+    "category": "power_electronics",
+    "question": "What is the purpose of a snubber circuit across a switching device?",
+    "options": ["Increase switching speed", "Limit voltage spikes and dv/dt", "Reduce conduction losses", "Improve gate drive"],
+    "answer": 1,
+    "explanation": "Snubber circuits (typically RC or RCD networks) limit voltage spikes and rate of voltage change (dv/dt) across switching devices during turn-off, protecting them from overvoltage damage."
+  },
+  {
+    "id": 34,
+    "category": "signals_and_systems",
+    "question": "The z-transform is to discrete-time signals what the _____ is to continuous-time signals.",
+    "options": ["Fourier Transform", "Laplace Transform", "Hilbert Transform", "Wavelet Transform"],
+    "answer": 1,
+    "explanation": "The z-transform is the discrete-time counterpart of the Laplace transform. Both provide a complex-variable representation useful for system analysis, with z = e^(sT) relating the two."
+  },
+  {
+    "id": 35,
+    "category": "digital_logic",
+    "question": "What is the purpose of a clock divider circuit?",
+    "options": ["Multiply clock frequency", "Reduce clock frequency by an integer factor", "Generate random clock signals", "Synchronize two clock domains"],
+    "answer": 1,
+    "explanation": "A clock divider (often using flip-flops as counters) takes an input clock and produces an output at a lower frequency. A single T flip-flop divides by 2."
+  },
+  {
+    "id": 36,
+    "category": "control_systems",
+    "question": "What is the gain margin of a system?",
+    "options": ["Gain at DC", "How much gain can increase before instability", "Maximum output amplitude", "Bandwidth × gain product"],
+    "answer": 1,
+    "explanation": "Gain margin is the amount (in dB) by which the loop gain can be increased before the system becomes unstable. It's measured at the phase crossover frequency where phase = -180°."
+  },
+  {
+    "id": 37,
+    "category": "circuit_analysis",
+    "question": "What is the quality factor (Q) of a series RLC circuit?",
+    "options": ["R/(ωL)", "ωL/R", "R×C", "1/(RC)"],
+    "answer": 1,
+    "explanation": "Q = ωL/R = 1/(ωCR) = (1/R)√(L/C) at resonance. Higher Q means a sharper resonance peak and lower bandwidth. It represents the ratio of energy stored to energy dissipated per cycle."
+  },
+  {
+    "id": 38,
+    "category": "electromagnetics",
+    "question": "What type of antenna has an omnidirectional radiation pattern in the horizontal plane?",
+    "options": ["Parabolic dish", "Yagi-Uda", "Dipole antenna", "Horn antenna"],
+    "answer": 2,
+    "explanation": "A vertical dipole antenna radiates equally in all horizontal directions (omnidirectional in azimuth) with a toroidal pattern. Dishes and Yagis are highly directional."
+  },
+  {
+    "id": 39,
+    "category": "semiconductor_physics",
+    "question": "What is the primary advantage of CMOS logic over pure NMOS logic?",
+    "options": ["Faster switching", "Lower static power consumption", "Fewer transistors", "Higher voltage tolerance"],
+    "answer": 1,
+    "explanation": "CMOS has near-zero static power dissipation because in either logic state, one of the complementary transistors (NMOS or PMOS) is off, preventing DC current flow from supply to ground."
+  },
+  {
+    "id": 40,
+    "category": "power_electronics",
+    "question": "A flyback converter is derived from which basic converter topology?",
+    "options": ["Buck converter", "Boost converter", "Buck-boost converter", "Ćuk converter"],
+    "answer": 2,
+    "explanation": "A flyback converter is an isolated version of the buck-boost converter, using a coupled inductor (transformer) for galvanic isolation while allowing step-up or step-down conversion."
+  },
+  {
+    "id": 41,
+    "category": "signals_and_systems",
+    "question": "What is the bandwidth of a first-order low-pass RC filter with R=1kΩ and C=159nF?",
+    "options": ["100Hz", "1kHz", "10kHz", "100kHz"],
+    "answer": 1,
+    "explanation": "f_c = 1/(2πRC) = 1/(2π × 1000 × 159×10⁻⁹) ≈ 1/(2π × 1.59×10⁻⁴) ≈ 1/(10⁻³) = 1000Hz = 1kHz."
+  },
+  {
+    "id": 42,
+    "category": "digital_logic",
+    "question": "What is metastability in digital circuits?",
+    "options": ["A stable logic high state", "An indeterminate state between 0 and 1 due to timing violations", "A type of memory corruption", "An overvoltage condition"],
+    "answer": 1,
+    "explanation": "Metastability occurs when a flip-flop's setup/hold time is violated (e.g., at clock domain crossings). The output enters an unstable state between 0 and 1 for an unpredictable duration before resolving."
+  },
+  {
+    "id": 43,
+    "category": "control_systems",
+    "question": "A PID controller's derivative term primarily helps with:",
+    "options": ["Eliminating steady-state error", "Reducing overshoot and improving transient response", "Increasing system bandwidth", "Reducing noise sensitivity"],
+    "answer": 1,
+    "explanation": "The derivative term provides a damping effect by responding to the rate of change of error. It anticipates future error trends, reducing overshoot and improving settling time."
+  },
+  {
+    "id": 44,
+    "category": "circuit_analysis",
+    "question": "What is the Thevenin equivalent voltage of a circuit?",
+    "options": ["The short-circuit current", "The open-circuit voltage at the terminals", "The maximum power voltage", "The average voltage"],
+    "answer": 1,
+    "explanation": "The Thevenin voltage (Vth) is the open-circuit voltage measured at the two terminals of interest with no load connected. Combined with Thevenin resistance, it simplifies complex linear circuits."
+  },
+  {
+    "id": 45,
+    "category": "electromagnetics",
+    "question": "What is the relationship between wavelength (λ) and frequency (f) for electromagnetic waves?",
+    "options": ["λ = c/f", "λ = c×f", "λ = f/c", "λ = c²/f"],
+    "answer": 0,
+    "explanation": "The fundamental wave equation: c = λf, therefore λ = c/f. Higher frequency means shorter wavelength. For example, at 3GHz: λ = 3×10⁸/3×10⁹ = 0.1m = 10cm."
+  },
+  {
+    "id": 46,
+    "category": "semiconductor_physics",
+    "question": "What does the Miller effect do to the input capacitance of a common-emitter amplifier?",
+    "options": ["Reduces it", "Has no effect", "Multiplies it by approximately (1 + Av)", "Divides it by the gain"],
+    "answer": 2,
+    "explanation": "The Miller effect multiplies the feedback capacitance (Cbc) by approximately (1 + |Av|) when reflected to the input. This effectively increases input capacitance and limits high-frequency bandwidth."
+  },
+  {
+    "id": 47,
+    "category": "power_electronics",
+    "question": "What is the typical switching frequency range for modern power MOSFETs in DC-DC converters?",
+    "options": ["50-60Hz", "1-10kHz", "100kHz - 2MHz", "1GHz+"],
+    "answer": 2,
+    "explanation": "Modern DC-DC converters typically switch between 100kHz and 2MHz. Higher frequencies allow smaller inductors/capacitors but increase switching losses. The sweet spot balances size vs. efficiency."
+  },
+  {
+    "id": 48,
+    "category": "digital_logic",
+    "question": "What is the difference between synchronous and asynchronous reset in a flip-flop?",
+    "options": ["Synchronous is faster", "Synchronous reset only takes effect at the clock edge; asynchronous is immediate", "Asynchronous uses more power", "There is no difference"],
+    "answer": 1,
+    "explanation": "Synchronous reset is sampled at the clock edge like regular data, while asynchronous reset takes effect immediately regardless of the clock. Async reset ensures known state at power-up; sync reset avoids timing hazards."
+  },
+  {
+    "id": 49,
+    "category": "signals_and_systems",
+    "question": "What is the main advantage of an IIR filter over an FIR filter?",
+    "options": ["Always stable", "Linear phase response", "Achieves sharp cutoff with fewer coefficients", "Easier to implement"],
+    "answer": 2,
+    "explanation": "IIR filters use feedback (poles), achieving steep frequency responses with fewer coefficients than FIR filters. The tradeoff is potential instability and non-linear phase response."
+  },
+  {
+    "id": 50,
+    "category": "control_systems",
+    "question": "What is the crossover frequency in a control system?",
+    "options": ["Frequency where gain = 0 dB", "Frequency where phase = 0°", "The natural frequency", "The resonant frequency"],
+    "answer": 0,
+    "explanation": "The gain crossover frequency is where the open-loop gain magnitude equals 1 (0 dB). It's important because the phase margin is measured at this frequency, and it approximates the closed-loop bandwidth."
+  }
+]

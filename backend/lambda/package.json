@@ -1,0 +1,10 @@
+{
+  "name": "ee-connections-question-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Lambda that generates EE trivia questions from source text using Bedrock",
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.500.0",
+    "@aws-sdk/client-s3": "^3.500.0"
+  }
+}

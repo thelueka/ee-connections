@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EE Connections</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Title bar drag region -->
+    <div class="titlebar">
+      <span class="titlebar-text">⚡ EE Connections</span>
+    </div>
+
+    <!-- Stats bar -->
+    <div class="stats-bar">
+      <div class="stat">
+        <span class="stat-value" id="streak">0</span>
+        <span class="stat-label">Streak</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="accuracy">0%</span>
+        <span class="stat-label">Accuracy</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" id="total">0</span>
+        <span class="stat-label">Answered</span>
+      </div>
+    </div>
+
+    <!-- Question card -->
+    <div class="question-card" id="question-card">
+      <div class="category-badge" id="category-badge">Loading...</div>
+      <div class="question-text" id="question-text">Loading today's question...</div>
+      <div class="options-container" id="options-container"></div>
+    </div>
+
+    <!-- Result card (hidden by default) -->
+    <div class="result-card hidden" id="result-card">
+      <div class="result-icon" id="result-icon">✓</div>
+      <div class="result-text" id="result-text">Correct!</div>
+      <div class="explanation" id="explanation"></div>
+      <div class="next-question-timer" id="next-timer">Next question tomorrow</div>
+    </div>
+
+    <!-- Already answered state -->
+    <div class="done-card hidden" id="done-card">
+      <div class="done-icon">✅</div>
+      <div class="done-text">You've already answered today's question!</div>
+      <div class="done-subtext">Come back tomorrow for a new challenge.</div>
+      <div class="review-section" id="review-section"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
