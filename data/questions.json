@@ -702,5 +702,541 @@
     "options": ["It increases output power by 3 dB", "It converts the signal from single-mode to multi-mode", "It prevents back-reflections from re-entering the amplifier and causing instability or lasing", "It filters out the pump wavelength"],
     "answer": 2,
     "explanation": "Back-reflections from connectors or fiber discontinuities can re-enter the amplifier, causing gain ripple, instability, or even parasitic lasing if the round-trip gain exceeds loss. An isolator (typically >30 dB isolation) blocks these reflections."
+  },
+  {
+    "id": 89,
+    "category": "aerospace",
+    "question": "Which part type most needs Total Ionizing Dose testing at a low dose rate (~0.01 rad(Si)/s), not just the standard 50-300 rad(Si)/s?",
+    "options": ["Deep-submicron CMOS microcontrollers", "Linear bipolar ICs such as op amps, comparators and voltage references", "SiGe HBTs on an SOI substrate", "Ceramic capacitors and thin-film resistors"],
+    "answer": 1,
+    "explanation": "Some linear bipolar parts show Enhanced Low Dose Rate Sensitivity (ELDRS): they degrade more when dose builds up slowly, which is exactly what happens in orbit. At a high dose rate the dense electron-hole population recombines more, so fewer holes free the protons that create interface traps. The LM324 is strongly dose-rate sensitive while the LM108 shows none, so you can't predict it; you have to test. The cost is time: 100 krad takes ~20 minutes at 100 rad/s but ~116 days at 0.01 rad/s."
+  },
+  {
+    "id": 90,
+    "category": "semiconductor_physics",
+    "question": "Why does Cobalt-60 gamma irradiation give a worse TID response in a MOS oxide than the same dose delivered by heavy ions?",
+    "options": ["Gamma photons displace more silicon atoms than ions do", "Heavy ions cannot penetrate a gate oxide", "Gamma-generated electron-hole pairs are sparse, so fewer recombine and more holes survive to be trapped", "Gamma rays carry positive charge that builds up in the oxide"],
+    "answer": 2,
+    "explanation": "The fraction of holes that escape recombination (the fractional yield) falls as the charge density along the track rises. Heavy ions leave dense tracks where most pairs recombine immediately, while gamma rays and X-rays create sparse pairs that the oxide field separates. A strong oxide field raises the yield further. That's why Co-60 is the standard worst-case TID source in MIL-STD-883 TM1019."
+  },
+  {
+    "id": 91,
+    "category": "semiconductor_physics",
+    "question": "In a modern deep-submicron CMOS process, what usually limits Total Ionizing Dose tolerance?",
+    "options": ["Hole charge trapped in shallow-trench (field) isolation oxide that inverts the P-type sidewall and opens NMOS leakage paths", "Threshold-voltage shift in the thin gate oxide", "Displacement damage in the transistor channel", "Electromigration in the top metal layer"],
+    "answer": 0,
+    "explanation": "Gate oxides thinner than ~10 nm trap very little net charge, so individual transistor thresholds barely move. The thick isolation oxide still traps holes, which invert the P-type silicon at the trench edge and form parasitic channels from source to drain or to a neighboring N-well. Supply current rises until the part fails. An enclosed (annular) gate layout removes the isolation edge and with it this failure mode."
+  },
+  {
+    "id": 92,
+    "category": "semiconductor_physics",
+    "question": "TID builds up positive trapped charge in oxides. Which transistor type usually fails first, and why?",
+    "options": ["PMOS, because its threshold moves toward depletion and it starts to leak", "Both fail at the same dose, since the trapped charge is identical", "Neither; trapped charge only degrades bipolar gain", "NMOS, because positive charge lowers its threshold and inverts the P-type surface, increasing leakage"],
+    "answer": 3,
+    "explanation": "Positive oxide charge attracts electrons to the silicon surface. In NMOS that lowers the threshold and inverts P-type regions, so off-state leakage rises. In PMOS the same charge pushes the threshold more negative, making the device harder to turn on and reducing its leakage. That's why TID failures in CMOS are almost always traced to NMOS and field-isolation leakage."
+  },
+  {
+    "id": 93,
+    "category": "aerospace",
+    "question": "A heavy-ion beam has an LET of 20 MeV·cm²/mg at normal incidence. The test board is tilted to 60°. What effective LET does the cosine law give?",
+    "options": ["10 MeV·cm²/mg", "17.3 MeV·cm²/mg", "40 MeV·cm²/mg", "80 MeV·cm²/mg"],
+    "answer": 2,
+    "explanation": "LET_eff = LET / cos θ = 20 / cos 60° = 20 / 0.5 = 40 MeV·cm²/mg. A slanted path deposits more charge in a thin surface sensitive volume. The approximation breaks down for deep sensitive volumes (classic bipolar parts, where the angled ion may exit before reaching full depth), for tiny geometries (where one angled ion hits several cells), and for SEB/SEGR testing of power MOSFETs, which should use normal incidence."
+  },
+  {
+    "id": 94,
+    "category": "semiconductor_physics",
+    "question": "Early DRAMs used a ~5 µm polyimide overcoat as an 'alpha shield', but it made soft errors worse. Why?",
+    "options": ["Polyimide contains a lot of uranium", "It stored static charge that lowered the cell's critical charge", "It reflected alpha particles back into the die", "It slowed the alphas without stopping them, so they reached the silicon near their Bragg peak with higher LET"],
+    "answer": 3,
+    "explanation": "LET is strongly nonlinear: a particle deposits most of its energy near the end of its range (the Bragg peak). A shield too thin to stop the alphas simply moved their peak energy deposition closer to the active devices. Rule of thumb: a partial shield against charged particles can increase SEE rates; it has to fully stop the particle to help."
+  },
+  {
+    "id": 95,
+    "category": "power_electronics",
+    "question": "A vertical power MOSFET rated for 100 V is used in a space buck converter. When is it most vulnerable to Single-Event Burnout (SEB)?",
+    "options": ["Fully on, carrying maximum current at low VDS", "Off, blocking a high drain-source voltage", "Only during the gate-charge (Miller) plateau", "Unpowered, during launch"],
+    "answer": 1,
+    "explanation": "An ion passing through the P-body or neck region can forward-bias the parasitic NPN formed by the N+ source, the P-body and the N- drift region. If VDS is high enough for avalanche multiplication, the parasitic BJT latches regeneratively and the device melts locally. Single-Event Gate Rupture is also an off-state failure: holes pile up under the gate oxide until it breaks down. Both thresholds sit well below the rated breakdown voltage, so space designs derate VDS according to the part's heavy-ion safe operating area."
+  },
+  {
+    "id": 96,
+    "category": "power_electronics",
+    "question": "Heavy-ion testing of a 2.5 V shunt reference with no output capacitor shows ±1.7 V transients lasting longer than 7 µs. What is the most effective board-level fix?",
+    "options": ["Add a series ferrite bead on the output", "Run the reference at its minimum bias current", "Add a TVS diode across the output", "Add tens of µF of output capacitance"],
+    "answer": 3,
+    "explanation": "In TI's LM4050 data, 30 µF on the output cut transients to about +0.33/-0.44 V and 60 ns, and with 60 µF no transients were detected at all. The capacitor absorbs the collected charge before the node voltage can move much. The same applies to LDOs, which also need their output capacitor (with the specified ESR) for stability. Testing a regulator without that capacitor gives misleading SEE results."
+  },
+  {
+    "id": 97,
+    "category": "aerospace",
+    "question": "For heavy-ion Single-Event Latchup (SEL) screening, which operating condition is the worst case?",
+    "options": ["Minimum supply voltage at room temperature", "Minimum supply voltage at the coldest temperature", "Maximum supply voltage at maximum junction temperature", "Unpowered, so all the ion charge is collected"],
+    "answer": 2,
+    "explanation": "A higher supply voltage drops more voltage across the well and substrate resistances, and a higher temperature lowers the parasitic BJT's base-emitter turn-on voltage while raising its gain. Both make it easier to trigger and hold the PNPN latch. By contrast, SEU and SEFI are usually worst at the minimum supply voltage, so a full SEE campaign tests both corners."
+  },
+  {
+    "id": 98,
+    "category": "aerospace",
+    "question": "During a heavy-ion run, a DAC's supply current steps up and stays high. Rewriting its control registers, without cycling power, brings the current back to normal. What most likely happened?",
+    "options": ["A SEFI: an upset configuration register put the part into a different operating mode", "A single-event latchup", "A single-event burnout", "TID-induced leakage"],
+    "answer": 0,
+    "explanation": "A true SEL only clears when power is removed (or the supply drops below the holding voltage). If a register rewrite fixes it, it was a Single-Event Functional Interrupt. TI's handbook warns that tripping a current limit is not proof of SEL: SEFI mode changes, micro-latchups, and regulator output transients that briefly pull extra input current can all trip a limit. Reading back registers before and after each ion run tells them apart."
+  },
+  {
+    "id": 99,
+    "category": "aerospace",
+    "question": "A COTS part latched up during testing. A current-limit circuit cut power within milliseconds, and afterward the part passed every parametric test. What concern remains?",
+    "options": ["None; passing parametrics proves it is undamaged", "Its latchup threshold rises after the first event", "Latent electromigration damage, such as metal extrusions, metal bridges and cracked isolation, that can shorten its life", "Displacement damage caused by the latchup current"],
+    "answer": 2,
+    "explanation": "Studies of 'non-destructive' SEL found latent damage that showed almost no electrical signature and could only be seen with microscopy. Electromigration artifacts like these can fail later in the mission. If you fly non-SEL-immune parts behind SEL detect-and-reset circuits, do physical failure analysis on test units to confirm the current limit and response time actually prevent latent damage."
+  },
+  {
+    "id": 100,
+    "category": "semiconductor_physics",
+    "question": "Which statement about Silicon-on-Insulator (SOI) and single-event latchup is correct?",
+    "options": ["Every SOI process is latchup-immune", "SOI removes the PNPN path only when the isolation (STI or deep trench) reaches the buried oxide and fully separates the N and P devices", "SOI makes latchup worse because the buried oxide traps holes", "SOI improves TID only and has no effect on SEE"],
+    "answer": 1,
+    "explanation": "In thin-film SOI the shallow trench reaches the buried oxide, so the NMOS and PMOS are dielectrically isolated and there's no parasitic thyristor. Many BiCMOS SOI processes use thicker device layers where the STI stops short of the BOX, so PNPN paths still exist and SEL is possible unless deep trench isolation is used. Similarly, being 'on epi' doesn't mean latchup-immune; it only helps with a thin epi on a heavily doped substrate. The buried oxide also cuts SEU rates, roughly 5-10x versus bulk, by truncating charge collection."
+  },
+  {
+    "id": 101,
+    "category": "digital_logic",
+    "question": "An SRAM uses SEC-DED ECC. Why does increasing the column-mux (bit-interleaving) factor greatly reduce uncorrectable errors?",
+    "options": ["It adds more check bits to each word", "It lowers each cell's critical charge", "It makes scrubbing run faster", "It physically spaces out the bits of each logical word, so a multi-cell upset becomes several correctable single-bit errors in different words"],
+    "answer": 3,
+    "explanation": "A multi-cell upset is a contiguous cluster along the ion track. With mux = 1 a 5-bit cluster hits a single word and defeats SEC-DED. With mux = 8 the same cluster lands as five single-bit errors in five different words, all correctable. Large clusters are rare (in TI's 45 nm SRAM, double-bit upsets were ~4% of events and triple-bit ~0.12%), so modest interleaving buys orders of magnitude for the same ECC overhead."
+  },
+  {
+    "id": 102,
+    "category": "digital_logic",
+    "question": "Why is a single parity bit per word not enough protection in a high-SEU environment?",
+    "options": ["It detects an odd number of flipped bits but misses even-numbered multi-bit upsets (silent corruption), and it can't correct anything", "It can't detect any single-bit errors", "The parity bit itself is immune, which hides errors", "Parity takes more area than SEC-DED ECC"],
+    "answer": 0,
+    "explanation": "Parity catches every single-bit upset but nothing with an even number of flipped bits. MBUs are typically 5-15% of the SBU rate, so parity alone improves the failure rate by only ~6-20x. It also only detects; the system has to refetch or reload the data. In high-flux environments, memory must also be read or scrubbed often enough that single-bit errors don't accumulate into undetectable double errors in the same word."
+  },
+  {
+    "id": 103,
+    "category": "semiconductor_physics",
+    "question": "Which devices are most sensitive to displacement damage from protons and neutrons?",
+    "options": ["Deep-submicron CMOS logic", "Metal-film resistors", "Minority-carrier devices: bipolar transistors (especially lateral PNPs), photodiodes, LEDs, laser diodes and solar cells", "Multilayer ceramic capacitors"],
+    "answer": 2,
+    "explanation": "Displacement damage knocks silicon atoms out of the lattice, creating bulk traps that cut minority-carrier lifetime. Bipolar gain, photodiode dark current and responsivity, and LED or solar-cell output all depend on that lifetime. MOSFETs are majority-carrier devices with a very thin active channel, so they tolerate much higher fluences. PNPs are usually worse than NPNs because of lighter base doping. In LEO, trapped protons dominate the displacement damage dose."
+  },
+  {
+    "id": 104,
+    "category": "aerospace",
+    "question": "Why is displacement damage dose usually tested with neutrons rather than protons, even though protons cause most of it in orbit?",
+    "options": ["Neutron beams are cheaper to rent", "Protons cannot cause displacement damage", "Neutrons better represent the LEO environment", "Protons also ionize, which mixes TID with displacement damage; neutrons lose energy almost entirely through non-ionizing processes and isolate the DD effect"],
+    "answer": 3,
+    "explanation": "To separate the two mechanisms, MIL-STD-883 TM1017 irradiates unbiased parts with neutrons (typically 10¹⁰-10¹² n/cm²), while TID is tested separately with Co-60 gamma. Sometimes a TID exposure follows the neutron test to see the combined effect. Bipolar parts can start degrading in the mid-10¹¹ n/cm² range or lower."
+  },
+  {
+    "id": 105,
+    "category": "aerospace",
+    "question": "Why does a ~500 km LEO satellite pick up much of its trapped-proton dose over South America and the South Atlantic?",
+    "options": ["Solar flares are focused on that region", "Earth's magnetic dipole is tilted and offset from the spin axis, so the inner Van Allen belt dips to ~200-800 km there (the South Atlantic Anomaly)", "Ground-based radars there induce extra current", "The ionosphere is thinner over oceans"],
+    "answer": 1,
+    "explanation": "The ~11° tilt and offset of the geomagnetic field bring the inner proton belt, normally above ~1,200 km, down to LEO altitudes over the South Atlantic Anomaly. Fluxes there are lower than deep inside the belt but much higher than anywhere else at that altitude. Most of the ISS's radiation dose comes from SAA passes, and some missions schedule sensitive operations or power states around them."
+  },
+  {
+    "id": 106,
+    "category": "aerospace",
+    "question": "Two reels of a COTS op amp carry the same 4-digit date code. What does that tell you about whether their radiation response will match?",
+    "options": ["Very little: the code marks the assembly or lid-seal week, and the dice can come from different wafer lots or even different fabs", "They're from the same wafer lot, so their TID response will match", "The wafers were fabricated in that week", "They're guaranteed to come from the same fab with the same material set"],
+    "answer": 0,
+    "explanation": "TI's handbook lists LM139 units with one date code built from wafers made in different fabs, some fabricated three years apart. Even in a single fab with no process changes, three LM108 wafer lots tested at 100, 30 and 10 krad, and two of those were processed a month apart. Commercial fabs control the parameters that matter electrically, not oxide properties that set radiation hardness. That's why RHA parts get radiation lot acceptance testing (RLAT) on every lot, and why COTS radiation data from one lot doesn't carry over to the next."
+  },
+  {
+    "id": 107,
+    "category": "aerospace",
+    "question": "A heavy-ion run at one LET records 50 upsets over a fluence of 1×10⁷ ions/cm². What is the SEU cross-section at that LET?",
+    "options": ["2×10⁵ cm²", "5×10⁸ cm²", "5×10⁻⁶ cm²", "5×10⁻⁸ cm²"],
+    "answer": 2,
+    "explanation": "Cross-section σ = events / fluence = 50 / 10⁷ cm⁻² = 5×10⁻⁶ cm². Cross-sections measured at several LETs are fitted to a Weibull curve (onset LET, saturated cross-section, width, shape), and the fit is fed into an environment model such as CREME96 to predict on-orbit upset rates. Runs usually stop at 100 events or 10⁷ ions/cm², whichever comes first."
+  },
+  {
+    "id": 108,
+    "category": "aerospace",
+    "question": "A part upsets under heavy ions down to an LET of ~5 MeV·cm²/mg. A 200 MeV proton's direct-ionization LET in silicon is well below 1 MeV·cm²/mg. How can protons still cause upsets in parts like this?",
+    "options": ["Protons travel faster, so they deposit charge more quickly", "Protons always create alpha particles in the package", "Protons can't upset it; direct LET is the only thing that matters", "Proton nuclear reactions with silicon nuclei produce short-range recoils and fragments whose LET is high enough to upset the part"],
+    "answer": 3,
+    "explanation": "Most proton SEEs are indirect. A small fraction of protons undergo nuclear reactions, and the heavy recoil or fragments deposit dense charge locally. Parts with a heavy-ion onset LET below roughly 14-37 MeV·cm²/mg are usually proton-tested (JESD234). It's a risk screen, not a verdict: TI's ADC08D1520 upset under heavy ions down to 5.8 MeV·cm²/mg but showed no upsets under 200 MeV protons."
+  },
+  {
+    "id": 109,
+    "category": "aerospace",
+    "question": "A CMOS DAC fails below 30 krad when biased at 5.5 V during high-dose-rate irradiation, but survives more than 100 krad when biased at 3.3 V. What's the takeaway?",
+    "options": ["TID tolerance is fixed by the process and the test was flawed", "Lower supply voltage triggers ELDRS", "A higher oxide field during irradiation increases charge yield and trapping, so operating voltage and power state change how much dose the part survives", "3.3 V operation reduces displacement damage"],
+    "answer": 2,
+    "explanation": "This is TI's DAC121S101 data. For CMOS, the worst case is the maximum operating voltage, and parts that are unbiased during exposure can survive an order of magnitude more dose. Bipolar parts are less predictable: for the LM117, irradiating unbiased with pins tied together is the worst case. Qualification uses worst-case bias, so a mission profile with lower rails or powered-off periods can have extra margin. Check how the part was biased in the report."
+  },
+  {
+    "id": 110,
+    "category": "aerospace",
+    "question": "A CMOS product fails at 30 krad when tested at 50-300 rad(Si)/s, yet passes 100 krad at 10 mrad(Si)/s. What explains this?",
+    "options": ["The part has ELDRS", "During slow exposure, trapped oxide charge anneals at room temperature as fast as it builds up, so a high dose rate is the worst case for most CMOS", "Co-60 photon energy changes with dose rate", "Displacement damage only occurs at high dose rates"],
+    "answer": 1,
+    "explanation": "This is the opposite of ELDRS. CMOS trapped-hole charge self-anneals, so a slowly delivered dose does less net damage. MIL-STD-883 TM1019 allows an extended room-temperature anneal test: irradiate at a high rate, keep the part biased at room temperature, and if it recovers, qualify it for low-dose-rate environments only. The allowed dose rate is the tested dose divided by the recovery time."
+  },
+  {
+    "id": 111,
+    "category": "aerospace",
+    "question": "Under MIL-STD-883 TM1019, how must each lot of a 100 krad-rated bipolar linear part that shows ELDRS be radiation-tested?",
+    "options": ["Irradiate to 150 krad at ≤10 mrad(Si)/s and still pass the 100 krad limits", "Irradiate to 100 krad at 50-300 rad(Si)/s", "Irradiate to 100 krad at 0.5-5 rad/s and 100 °C", "Irradiate to 50 krad at the low dose rate only"],
+    "answer": 0,
+    "explanation": "The 1.5× overtest at 10 mrad/s guards against further enhancement at even lower in-orbit dose rates. 150 krad at 0.01 rad/s is 1.5×10⁷ s, about 174 days per lot. A part is declared ELDRS-sensitive when its median low-dose-rate drift exceeds 1.5× the high-dose-rate drift and some results fall outside the pre-irradiation limits. The 100 °C elevated-temperature accelerated test was added in 2003 and removed in 2006 because it didn't correlate for every product."
+  },
+  {
+    "id": 112,
+    "category": "semiconductor_physics",
+    "question": "Why did fabs remove BPSG glass, or switch to ¹¹B-enriched boron, to reduce terrestrial soft errors?",
+    "options": ["¹¹B is a natural alpha emitter", "Boron-doped glass traps holes and causes TID leakage", "¹⁰B has a huge thermal-neutron capture cross-section (~3,840 barns) and splits into a 1.47 MeV alpha and a ⁷Li recoil within microns of the silicon", "BPSG reflects cosmic-ray neutrons into the die"],
+    "answer": 2,
+    "explanation": "Natural boron is ~20% ¹⁰B. Its capture cross-section for thermal neutrons is three to seven orders of magnitude higher than that of other common chip materials. The alpha and lithium recoil fly off in opposite directions with ranges of only a few µm, so only boron right next to the active silicon matters. Eliminating that ¹⁰B source cut SRAM soft-error rates by about 5-10x."
+  },
+  {
+    "id": 113,
+    "category": "digital_logic",
+    "question": "Why does the soft-error contribution from single-event transients in combinational logic grow with clock frequency?",
+    "options": ["Faster clocks require a higher supply voltage", "Higher frequency lowers the particle's LET", "With more latching windows per second, a glitch is more likely to arrive during a flip-flop's setup/hold window and be captured", "Clock trees shield combinational logic at low frequency"],
+    "answer": 2,
+    "explanation": "A transient only becomes a persistent error if it propagates along a valid logic path and reaches a latch with enough amplitude during its sampling window. Capture probability rises roughly linearly with clock frequency. Faster, lower-voltage technologies also let narrow glitches propagate without being attenuated. A transient on the clock tree is a separate risk: it needs a large event because of the tree's capacitance, but it can falsely clock every flop it drives."
+  },
+  {
+    "id": 114,
+    "category": "aerospace",
+    "question": "Why must parts usually be decapsulated (or backside-thinned, for flip-chip) for heavy-ion testing but not for proton testing?",
+    "options": ["Decapping removes alpha-emitting mold compound", "Protons need a vacuum chamber that the package would outgas in", "It's a regulatory requirement for cyclotron facilities", "Heavy ions at most test facilities penetrate only ~40-400 µm of silicon and can't get through a package, while protons pass straight through"],
+    "answer": 3,
+    "explanation": "Accelerator heavy ions have far less energy than galactic cosmic rays. Their range has to reach past the device's sensitive depth (~10 µm for SOI, 60-100 µm for classic bipolar), so the die must be exposed. Because the range is short, the rest of the test board doesn't need shielding. Protons go through everything, so other components on the board must be shielded, and secondary neutrons in the test cave can hit nearby equipment."
+  },
+  {
+    "id": 115,
+    "category": "semiconductor_physics",
+    "question": "When an ion strikes a reverse-biased N+/P junction, what is 'charge funneling'?",
+    "options": ["Collected charge leaking through the contacts and vias", "The ion track's carrier column distorts the depletion region deep into the substrate, so drift collects charge from far below the junction within nanoseconds", "Slow diffusion collection over several microseconds", "Charge stored on the junction capacitance being transferred to the bitline"],
+    "answer": 1,
+    "explanation": "The dense track temporarily stretches the junction's field along its length, a funnel-shaped potential distortion. That greatly increases fast drift collection, which finishes in a few ns. Slower diffusion collection follows over hundreds of ns. Lighter substrate doping makes a bigger funnel. For the same layout area, N+/P junctions typically collect more charge than P+/N."
+  },
+  {
+    "id": 116,
+    "category": "circuit_analysis",
+    "question": "What is the thermal (Johnson) noise spectral density of a 1 kΩ resistor at 25 °C?",
+    "options": ["0.41 nV/√Hz", "4.1 nV/√Hz", "41 nV/√Hz", "1.3 µV/√Hz"],
+    "answer": 1,
+    "explanation": "e_n = √(4kTR) = √(4 × 1.38×10⁻²³ × 298 K × 1000 Ω) ≈ 4.06 nV/√Hz. It scales with √R, so 100 kΩ gives about 40.6 nV/√Hz. A useful anchor: 1 kΩ ≈ 4 nV/√Hz, which is about the voltage noise of a good low-noise op amp. Resistors in the feedback network can easily dominate the noise budget if they're large."
+  },
+  {
+    "id": 117,
+    "category": "signals_and_systems",
+    "question": "An amplifier has a flat 10 nV/√Hz noise floor and a single-pole -3 dB bandwidth of 10 kHz. What is its total RMS broadband noise?",
+    "options": ["0.1 µV RMS", "1.0 µV RMS", "1.25 µV RMS", "10 µV RMS"],
+    "answer": 2,
+    "explanation": "A single-pole rolloff passes noise beyond f_c, so the equivalent brick-wall noise bandwidth is BWn = 1.57 × f_c = 15.7 kHz. E_n = 10 nV/√Hz × √15,700 Hz ≈ 1.25 µV RMS. Using f_c directly would give 1.0 µV and understate the noise. The correction factor shrinks with filter order: 1.22 for 2 poles, ~1.13 for 3, ~1.12 for 4."
+  },
+  {
+    "id": 118,
+    "category": "signals_and_systems",
+    "question": "Two uncorrelated noise sources of 3 µV RMS and 4 µV RMS are added together. What is the total noise?",
+    "options": ["5 µV RMS", "7 µV RMS", "1 µV RMS", "12 µV RMS"],
+    "answer": 0,
+    "explanation": "Uncorrelated noise adds as root-sum-square: √(3² + 4²) = 5 µV RMS. Only fully correlated sources (correlation factor C = +1) add linearly to 7 µV. RSS also means the largest source dominates: cutting the 3 µV source to zero only improves the total from 5 to 4 µV, so you get the most benefit from attacking the biggest contributor."
+  },
+  {
+    "id": 119,
+    "category": "digital_signal_processing",
+    "question": "You average N independent samples of a signal corrupted by uncorrelated random noise. How many samples do you need to reduce the noise by 4×?",
+    "options": ["4", "8", "16", "64"],
+    "answer": 2,
+    "explanation": "Averaging reduces uncorrelated noise by √N, so a 4× reduction needs N = 16. Each extra bit of effective resolution (2×, about 6 dB) costs 4× more samples. Averaging does nothing for correlated errors like offset, drift, or interference that is synchronous with the sample clock."
+  },
+  {
+    "id": 120,
+    "category": "signals_and_systems",
+    "question": "When converting Gaussian RMS noise to a peak-to-peak value, why is 6.6 × RMS a common multiplier?",
+    "options": ["It's the crest factor of a sine wave", "It equals √(4kT)", "It's defined by the IEEE noise standard", "The noise stays within ±3.3σ about 99.9% of the time"],
+    "answer": 3,
+    "explanation": "For Gaussian noise, ±1σ (2σ peak-to-peak) covers 68.3% of readings, ±3σ (6σ) covers 99.7%, and ±3.3σ (6.6σ) covers 99.9%. So 6.6 × RMS is the conventional 'practically never exceeded' peak-to-peak value. It's also why a converter's effective (RMS-based) resolution is about log₂(6.6) ≈ 2.7 bits higher than its noise-free (peak-to-peak-based) resolution."
+  },
+  {
+    "id": 121,
+    "category": "circuit_analysis",
+    "question": "An op amp with a 10 MHz gain-bandwidth product is configured as an inverting amplifier with gain -1. What is the approximate closed-loop bandwidth?",
+    "options": ["5 MHz", "10 MHz", "20 MHz", "1 MHz"],
+    "answer": 0,
+    "explanation": "Bandwidth is set by the noise gain, which is always the non-inverting gain 1 + Rf/Rg, not the signal gain. For an inverting gain of -1, Rf = Rg, so the noise gain is 2 and BW ≈ 10 MHz / 2 = 5 MHz. A unity-gain buffer (noise gain 1) would get the full 10 MHz. The same noise gain multiplies input offset and voltage noise to the output."
+  },
+  {
+    "id": 122,
+    "category": "circuit_analysis",
+    "question": "An op amp has a 0.8 V/µs slew rate. What is the largest undistorted sine wave it can output at 40 kHz?",
+    "options": ["0.32 V peak", "3.18 V peak", "20 V peak", "31.8 V peak"],
+    "answer": 1,
+    "explanation": "A sine's maximum slope is 2πf·Vp, so the full-power limit is Vp = SR / (2πf) = 0.8×10⁶ / (2π × 40×10³) ≈ 3.18 V peak, or 6.37 Vpp (the OPA277 example in TI's pocket reference). Above that amplitude the output turns into a triangle wave, even though 40 kHz is well inside the small-signal bandwidth. Small-signal bandwidth and full-power bandwidth are separate limits."
+  },
+  {
+    "id": 123,
+    "category": "control_systems",
+    "question": "A small-signal (≤50 mVpp) square wave applied to an op amp circuit shows about 20% overshoot. What does that indicate about the loop's phase margin, assuming a dominant two-pole response?",
+    "options": ["About 5°: nearly oscillating", "About 24°: marginal", "About 48°: acceptable", "About 90°: overdamped"],
+    "answer": 2,
+    "explanation": "For a dominant two-pole system, 20% overshoot corresponds to about 48° of phase margin, and 50% overshoot to about 24°. TI recommends at least 45°. Use a small signal so the amplifier doesn't slew and hide the ringing. In the frequency domain the equivalent check is AC peaking: 0 dB peaking means more than ~68° of margin, 5 dB about 33°, and 20 dB about 6°."
+  },
+  {
+    "id": 124,
+    "category": "control_systems",
+    "question": "When simulating op amp loop stability in SPICE, why is the loop broken with a 1 TH inductor and a 1 TF capacitor?",
+    "options": ["To model the op amp's output impedance", "The inductor closes the loop at DC so the circuit has a valid operating point, while it is effectively open at AC so you can measure loop gain", "To add a pole at exactly 1 Hz", "To prevent the simulator from computing noise"],
+    "answer": 1,
+    "explanation": "SPICE needs a closed loop at DC to find a bias point. A huge inductor is a short at DC and an open circuit at any real AC frequency, and the huge capacitor injects the AC test signal. You then read A_OL (V_O / V_FB), the feedback factor β, and loop gain A_OL·β, and find phase margin where the loop gain crosses 0 dB. Include the real load, such as the isolation resistor and load capacitance, because the loaded A_OL is what matters."
+  },
+  {
+    "id": 125,
+    "category": "circuit_analysis",
+    "question": "In an inverting amplifier with Rf = 99 kΩ and Rg = 1 kΩ (gain -99), the op amp has 1 mV of input offset voltage. What output offset does that produce?",
+    "options": ["99 mV", "1 mV", "100 mV", "9.9 mV"],
+    "answer": 2,
+    "explanation": "Offset is referred to the output by the noise gain, 1 + Rf/Rg = 100, not the signal gain magnitude of 99. So V_OS(RTO) = 1 mV × 100 = 100 mV. Bias-current terms add on top: I_BN × (Rf‖Rg) and I_BP × R_IN. Summing everything gives a worst-case bound, while RSS gives a more realistic statistical estimate."
+  },
+  {
+    "id": 126,
+    "category": "circuit_analysis",
+    "question": "In an RC input filter for an instrumentation amplifier, why is the differential capacitor made at least 10× the common-mode capacitors?",
+    "options": ["So that mismatch between the common-mode RC legs doesn't convert common-mode noise into a differential error", "To raise the common-mode filter cutoff above the signal band", "Because larger capacitors have lower ESR", "To provide more ESD protection"],
+    "answer": 0,
+    "explanation": "The two common-mode RC legs never match perfectly, so their slightly different cutoff frequencies turn common-mode noise into a differential signal, which the INA then amplifies. Making C_DIF ≥ 10 × C_CM puts the differential cutoff, f_DIF = 1/(2π·2R·(C_DIF + C_CM/2)), about 20× below the common-mode cutoff. The differential capacitor then shunts that converted noise. The input resistors and the common-mode capacitors must each be matched."
+  },
+  {
+    "id": 127,
+    "category": "power_electronics",
+    "question": "An op amp input with a 6 V absolute maximum and a 10 mA maximum input current must survive a 15 V overstress. A TVS diode breaks down at 6 V. What is the minimum series resistor?",
+    "options": ["150 Ω", "600 Ω", "1.5 kΩ", "830 Ω"],
+    "answer": 3,
+    "explanation": "R_S > (V_overstress - 0.7 V - V_BR) / I_max = (15 - 0.7 - 6) / 10 mA = 830 Ω. Then add margin. Choose a TVS whose reverse standoff voltage equals the normal supply (5 V here) so it barely leaks in normal operation, and whose breakdown is at or below the protected part's absolute maximum rating. During the event, the supply rail from an LDO can't sink current, so don't count on the internal ESD diodes to the rails for protection."
+  },
+  {
+    "id": 128,
+    "category": "power_electronics",
+    "question": "An op amp on a single 5 V supply drives an effective load of 100 Ω, with the load returned to ground. What is the maximum DC power dissipated inside the op amp from load current, and at what output voltage?",
+    "options": ["250 mW at 5 V", "62.5 mW at 2.5 V", "125 mW at 5 V", "31 mW at 1.25 V"],
+    "answer": 1,
+    "explanation": "The output stage dissipates (V_sup - V_out) × V_out / R_L, which peaks when V_out = V_sup/2: P = V_sup² / (4R_L) = 25 / 400 = 62.5 mW. Add quiescent power, (V+ - V-) × I_Q, then estimate junction temperature with T_j = θ_JA × P + T_A. Remember that the load includes the feedback network in parallel (R_L ‖ (Rf + Rg))."
+  },
+  {
+    "id": 129,
+    "category": "semiconductor_physics",
+    "question": "What does the ceramic capacitor code X7R specify?",
+    "options": ["Rated for 7 V, ±10% tolerance", "Capacitance stays within ±15% from -55 °C to +125 °C", "C0G-class stability from -55 °C to +125 °C", "Capacitance stays within ±7% from 0 °C to 70 °C"],
+    "answer": 1,
+    "explanation": "In the EIA Class 2 code, the first letter is the low temperature (X = -55 °C), the digit is the high temperature (7 = +125 °C), and the last letter is the allowed capacitance change (R = ±15%). X7R says nothing about DC-bias derating, which can take away well over half the capacitance near rated voltage. For filters and the signal path, C0G/NP0 (±30 ppm/°C, low voltage coefficient, minimal piezoelectric effect) is the right choice."
+  },
+  {
+    "id": 130,
+    "category": "circuit_analysis",
+    "question": "A ceramic capacitor is marked '223K'. What is its value and tolerance?",
+    "options": ["223 pF ±10%", "22 nF ±5%", "22 nF ±10%", "2.2 nF ±20%"],
+    "answer": 2,
+    "explanation": "The first two digits are significant figures and the third is the number of zeros, in picofarads: 22 followed by 000 pF = 22,000 pF = 22 nF = 0.022 µF. The letter is the tolerance: J = ±5%, K = ±10%, M = ±20%, Z = +80/-20%."
+  },
+  {
+    "id": 131,
+    "category": "electromagnetics",
+    "question": "Above its self-resonant frequency, a capacitor's impedance rises again as frequency increases. What causes this?",
+    "options": ["ESR rises with frequency", "The dielectric stops working above resonance", "Leakage resistance in parallel with the capacitance", "Equivalent series inductance (ESL) from the leads, terminations and mounting"],
+    "answer": 3,
+    "explanation": "A real capacitor is C in series with ESR and ESL (roughly 100 pH to 10 nH). Below resonance, |Z| falls at -20 dB/decade. At resonance only ESR remains (milliohms for ceramics, hundreds of mΩ for tantalum, ohms for aluminum electrolytics). Above resonance, ESL dominates and |Z| rises. That's why decoupling uses small, low-ESL ceramics placed close to the pins with short via paths."
+  },
+  {
+    "id": 132,
+    "category": "electromagnetics",
+    "question": "A 1 oz copper trace (0.0348 mm thick) is 5 mil wide and 20 mil long. Its resistance is 1.95 mΩ at 25 °C. About how much higher is it at 125 °C?",
+    "options": ["No change; copper's tempco is negligible", "About 4% higher", "About 39% higher (≈2.7 mΩ)", "It doubles"],
+    "answer": 2,
+    "explanation": "R = ρL/(tW) × [1 + α(T - 25 °C)], with copper α ≈ 3.9×10⁻³/°C. A 100 °C rise adds 39%, giving 1.95 mΩ × 1.39 ≈ 2.72 mΩ. That ~0.39 %/°C matters for current-sense shunts and Kelvin connections: a few mΩ of copper in the sense path can rival the shunt itself and drift with temperature."
+  },
+  {
+    "id": 133,
+    "category": "electromagnetics",
+    "question": "Two parallel copper planes measuring 5.08 mm × 12.7 mm are separated by 1.575 mm of FR-4 (εr ≈ 4.5). What is the plate capacitance?",
+    "options": ["0.16 pF", "16 pF", "160 pF", "1.6 pF"],
+    "answer": 3,
+    "explanation": "C = ε₀·εr·A/h = 8.854×10⁻³ pF/mm × 4.5 × (5.08 × 12.7) mm² / 1.575 mm ≈ 1.63 pF. That's why pads and planes under high-impedance nodes, like TIA inputs or feedback nodes, can add surprising parasitic capacitance. A thin core between a power plane and ground, by contrast, makes useful low-inductance decoupling capacitance."
+  },
+  {
+    "id": 134,
+    "category": "electromagnetics",
+    "question": "Roughly what inductance does a plated via through a 1.6 mm (63 mil) board add, for a 0.4 mm drill?",
+    "options": ["~1.2 nH", "~0.01 nH", "~12 nH", "~120 pH per layer only, negligible"],
+    "answer": 0,
+    "explanation": "L ≈ 0.2 nH/mm × h × [1 + ln(4h/d)] = 0.2 × 1.6 × [1 + ln(16)] ≈ 1.2 nH. That's comparable to a 0402 capacitor's own ESL, which is why decoupling capacitors use multiple or short vias and sit on the layer nearest their plane. The same via has only about 0.46 pF of capacitance to an inner ground plane."
+  },
+  {
+    "id": 135,
+    "category": "digital_logic",
+    "question": "A 5 V I²C bus has 100 pF of bus capacitance, a 300 ns rise-time limit, V_OL(max) = 0.4 V and a 3 mA sink current. Which pull-up value works?",
+    "options": ["1 kΩ", "2 kΩ", "4.7 kΩ", "10 kΩ"],
+    "answer": 1,
+    "explanation": "R_min = (V_DD - V_OL) / I_sink = 4.6 V / 3 mA = 1.53 kΩ. R_max = t_r / (0.8473 × C_b) = 300 ns / (0.8473 × 100 pF) = 3.54 kΩ. Only 2 kΩ falls between them. The 0.8473 is ln(0.7/0.3): the I²C rise time is measured from 30% to 70% of V_DD, so t_r = RC·ln(0.7/0.3)."
+  },
+  {
+    "id": 136,
+    "category": "digital_logic",
+    "question": "How does an I²C controller signal a START condition?",
+    "options": ["It pulls SDA low while SCL is high", "It pulses SCL low while SDA is high", "It sends address 0x00", "It holds SDA low for nine clock cycles"],
+    "answer": 0,
+    "explanation": "During normal data transfer, SDA may only change while SCL is low and must stay stable while SCL is high. So an SDA transition while SCL is high is reserved for bus conditions: falling is START (or repeated START), rising is STOP. Each byte is followed by a 9th clock in which the receiver pulls SDA low to ACK."
+  },
+  {
+    "id": 137,
+    "category": "digital_logic",
+    "question": "A 3.3 V LVTTL output (V_OH(min) = 2.4 V) drives the input of a 5 V CMOS gate. What's wrong?",
+    "options": ["Nothing; 2.4 V is a valid high for any logic family", "The low level is out of spec", "A logic high isn't guaranteed: 5 V CMOS needs V_IH ≥ 3.5 V (0.7 × V_CC)", "LVTTL outputs can't drive CMOS inputs because of current limits"],
+    "answer": 2,
+    "explanation": "5 V CMOS thresholds are V_IH = 3.5 V and V_IL = 1.5 V. A 2.4 V high falls in the undefined band, so the input may read either way and draw shoot-through current. The same 2.4 V is fine for 3.3 V CMOS (V_IH = 2.31 V) and for 5 V TTL (V_IH = 2.0 V). Use a level translator or a TTL-compatible input family (such as HCT) when going from low voltage to 5 V CMOS."
+  },
+  {
+    "id": 138,
+    "category": "digital_logic",
+    "question": "An 8-bit converter outputs code 11111111. What value does that represent in offset binary and in two's complement?",
+    "options": ["255 and -1", "127 and -1", "-128 and 127", "127 and -127"],
+    "answer": 1,
+    "explanation": "Offset binary maps 00000000 to the most negative value (-128) and 10000000 to zero, so 11111111 = +127. In two's complement, 11111111 = -1, 10000000 = -128 and 01111111 = +127. You can convert between the two formats by inverting the MSB, a common fix when an ADC's output format doesn't match what the firmware expects."
+  },
+  {
+    "id": 139,
+    "category": "digital_signal_processing",
+    "question": "A 12-bit ADC has a 5 V reference and a PGA gain of 2 in front of it. What is 1 LSB, referred to the input?",
+    "options": ["1.22 mV", "305 µV", "2.44 mV", "610 µV"],
+    "answer": 3,
+    "explanation": "FSR = V_REF / PGA = 5 V / 2 = 2.5 V, and 1 LSB = FSR / 2ⁿ = 2.5 V / 4096 ≈ 610 µV. Quantization error is ±½ LSB, and quantization noise is LSB/√12 ≈ 176 µV RMS. Note that the full-scale code (4095) corresponds to FSR - 1 LSB, not to FSR itself."
+  },
+  {
+    "id": 140,
+    "category": "digital_signal_processing",
+    "question": "What is the ideal SNR of a 16-bit ADC, limited only by quantization noise, for a full-scale sine wave?",
+    "options": ["96.3 dB", "98.1 dB", "90.3 dB", "101.8 dB"],
+    "answer": 1,
+    "explanation": "SNR = 6.02N + 1.76 dB = 6.02 × 16 + 1.76 ≈ 98.1 dB. This comes from a full-scale sine RMS of FSR/(2√2) divided by quantization noise of LSB/√12, giving 2^(N-1)·√6. The 96.3 dB figure (6.02 × 16) leaves out the 1.76 dB. Working backward from real data, ENOB = (SINAD - 1.76) / 6.02, so 83.9 dB SINAD gives about 13.6 bits."
+  },
+  {
+    "id": 141,
+    "category": "digital_signal_processing",
+    "question": "A 24-bit delta-sigma ADC shows 7 LSB of peak-to-peak noise with a DC input. What is its noise-free resolution?",
+    "options": ["About 21.2 bits", "About 23.9 bits", "About 17 bits", "24 bits"],
+    "answer": 0,
+    "explanation": "Noise-free resolution = log₂(2²⁴ / 7) ≈ 21.2 bits, the number of bits that don't flicker. Effective resolution uses RMS noise instead: 7/6.6 ≈ 1.06 LSB RMS, giving log₂(2²⁴ / 1.06) ≈ 23.9 bits, which is about noise-free resolution + 2.7. Datasheets quote both; make sure you know which one you're comparing."
+  },
+  {
+    "id": 142,
+    "category": "digital_signal_processing",
+    "question": "An ADC's RC input filter must settle to 12-bit accuracy after a full-scale step. How many RC time constants does that take?",
+    "options": ["5 τ", "6.9 τ", "12 τ", "8.3 τ"],
+    "answer": 3,
+    "explanation": "The error after N_TC time constants is e^(-N_TC). To reach ½ LSB-class accuracy, set e^(-N_TC) = 2^(-N), so N_TC = ln(2^N) = N × 0.693. For 12 bits that's ≈ 8.3 τ, and for 16 bits ≈ 11.1 τ. The old '5 τ = settled' rule only gets you to 0.7%, about 7 bits. That's why the charge-bucket RC in front of a SAR ADC has to be designed against the acquisition time."
+  },
+  {
+    "id": 143,
+    "category": "digital_signal_processing",
+    "question": "An ADC samples a 10 MHz input with a clock that has 1 ps RMS jitter. What is the best SNR it can achieve?",
+    "options": ["64 dB", "104 dB", "84 dB", "120 dB"],
+    "answer": 2,
+    "explanation": "SNR_jitter = -20·log₁₀(2π·f_in·t_j) = -20·log₁₀(2π × 10⁷ × 10⁻¹²) ≈ 84 dB. The limit depends on input frequency, not sample rate: at 100 MHz the same 1 ps allows only ~64 dB. Oversampling recovers 10·log₁₀(OSR). For high-IF sampling, the clock source often matters more than the ADC itself."
+  },
+  {
+    "id": 144,
+    "category": "digital_signal_processing",
+    "question": "What DNL specification guarantees that a DAC is monotonic?",
+    "options": ["DNL greater than -1 LSB at every code", "INL less than ±1 LSB", "DNL less than +1 LSB", "Zero offset error"],
+    "answer": 0,
+    "explanation": "DNL is each step's deviation from an ideal 1 LSB step. A DNL of -1 LSB means a step of zero; below -1 LSB the output actually goes down as the code goes up (non-monotonic), which can destabilize control loops. INL is the accumulated DNL measured against an end-point line, and it can't be removed with a simple two-point gain/offset calibration. Total unadjusted error (TUE) is the RSS of offset, gain, and INL errors."
+  },
+  {
+    "id": 145,
+    "category": "digital_signal_processing",
+    "question": "What is the difference between a DAC's offset error and its zero-code error?",
+    "options": ["They are identical", "Zero-code error is measured at code 0 and includes the output stage's inability to swing to the rail; offset error is the intercept of a best-fit line between two codes in the linear region", "Offset error includes gain error", "Zero-code error only applies to current-output DACs"],
+    "answer": 1,
+    "explanation": "Offset and gain error come from a two-point fit inside the linear region, extrapolated to code 0. Zero-code error (negative full-scale error) is what you actually get at code 0, including the output amplifier's swing limit near ground, which a negative supply can improve. Full-scale error is the same idea at the top code. Bipolar zero error is the midscale error of a bipolar-output DAC."
+  },
+  {
+    "id": 146,
+    "category": "digital_signal_processing",
+    "question": "In an 18-bit, 5 V system, a multiplexer channel with 100 pA of ON leakage is driven from a 1 MΩ source. How large is the resulting error?",
+    "options": ["Negligible, under 0.1 LSB", "About 0.5 LSB", "About 5 LSB (100 µV)", "About 500 LSB"],
+    "answer": 2,
+    "explanation": "V_ERROR = I_D(ON) × (R_SOURCE + R_ON) = 100 pA × 1.0001 MΩ ≈ 100 µV. With 1 LSB = 5 V / 2¹⁸ = 19.07 µV, that's about 5.2 codes. Leakage roughly doubles every ~10 °C, so it gets much worse when hot. Keep source impedances low, or buffer high-impedance sources before the mux."
+  },
+  {
+    "id": 147,
+    "category": "circuit_analysis",
+    "question": "An analog mux (R_ON = 125 Ω, C_D = 7.5 pF, t_TRANSITION = 92 ns) drives a 1 kΩ ‖ 5 pF load. How long does it take to settle to 14 bits after switching channels?",
+    "options": ["~92 ns", "~105 ns", "~1.1 µs", "~12 ns"],
+    "answer": 1,
+    "explanation": "Settling = t_TRANSITION + (R_ON ‖ R_LOAD) × (C_LOAD + C_D) × ln(2^N) = 92 ns + 111 Ω × 12.5 pF × 9.7 ≈ 105.5 ns. The RC tail is small here, but with a high source impedance or a large sampling capacitor it can dominate. R_ON also varies with signal voltage (R_ON flatness), which adds gain error and nonlinearity if the mux feeds a low-impedance stage, so buffer its output with a high-impedance input."
+  },
+  {
+    "id": 148,
+    "category": "circuit_analysis",
+    "question": "A mux injects 5 pC of charge when it switches, and its output drives a 1 nF hold capacitor. What voltage step does that cause?",
+    "options": ["5 mV", "0.5 mV", "50 mV", "5 µV"],
+    "answer": 0,
+    "explanation": "When the load capacitance dominates C_D, ΔV ≈ Q_INJ / C_L = 5 pC / 1 nF = 5 mV. A bigger hold capacitor reduces the step but slows settling, so there's a tradeoff. Charge injection also varies with source voltage and supply rails, so it's both an offset and a nonlinearity."
+  },
+  {
+    "id": 149,
+    "category": "semiconductor_physics",
+    "question": "About how much does a silicon diode's forward voltage change with temperature at a fixed forward current?",
+    "options": ["+2 mV/°C", "-0.2 mV/°C", "-20 mV/°C", "-2 mV/°C"],
+    "answer": 3,
+    "explanation": "V_D = (nkT/q)·ln(I/I_S), and I_S rises steeply with temperature, so V_F falls by roughly 2 mV/°C. TI's data shows -2.74 mV/°C at 0.1 mA, -2.54 mV/°C at 1 mA and -2.35 mV/°C at 10 mA, so the slope depends on bias current. This is the basis of diode and remote-diode temperature sensors. Exciting the junction at two currents and measuring ΔV_BE = (nkT/q)·ln(I₂/I₁) cancels I_S."
+  },
+  {
+    "id": 150,
+    "category": "semiconductor_physics",
+    "question": "Which temperature sensor is self-powered but needs cold-junction compensation?",
+    "options": ["Thermocouple", "PT100 RTD", "NTC thermistor", "Diode-connected transistor"],
+    "answer": 0,
+    "explanation": "A thermocouple produces a Seebeck voltage proportional to the temperature difference between its hot junction and the cold junction, where it meets copper. You have to measure the cold-junction temperature separately to recover the absolute temperature. RTDs, thermistors and diodes all need excitation current. Rough output scales: thermocouples give tens of mV, RTDs vary by ~0.39 Ω/°C (PT100), and thermistors are very nonlinear (Steinhart-Hart)."
+  },
+  {
+    "id": 151,
+    "category": "semiconductor_physics",
+    "question": "Using the standard Callendar-Van Dusen equation (A ≈ 3.9×10⁻³, B ≈ -5.9×10⁻⁷), a PT100 RTD reads 120 Ω. What is the temperature?",
+    "options": ["20 °C", "39 °C", "50.5 °C", "120 °C"],
+    "answer": 2,
+    "explanation": "For T ≥ 0 °C, R = R₀(1 + AT + BT²). Solving the quadratic, T = [-A + √(A² - 4B(1 - R/R₀))] / (2B) ≈ 50.5 °C with the ITS-90 coefficients. A linear α = 0.385%/°C estimate gives about 52 °C, a ~1.5 °C error caused by the B term. Below 0 °C the extra C term matters, and a fitted polynomial is usually used to convert resistance to temperature."
+  },
+  {
+    "id": 152,
+    "category": "signals_and_systems",
+    "question": "What is the RMS value of a 10 V peak, unipolar square wave with a 25% duty cycle?",
+    "options": ["2.5 V", "5 V", "7.07 V", "3.54 V"],
+    "answer": 1,
+    "explanation": "For a pulse train, V_RMS = V_peak × √(τ/T) = 10 × √0.25 = 5 V, while the mean is V_peak × τ/T = 2.5 V. Using mean or peak instead of RMS badly misestimates I²R heating. Other useful forms: a full-wave rectified sine has RMS = V_pk/√2 and mean = 2V_pk/π ≈ 0.637 V_pk, and a triangle pulse has RMS = V_pk·√(τ/3T)."
+  },
+  {
+    "id": 153,
+    "category": "control_systems",
+    "question": "A single real pole is at f_p. What phase shift does it contribute at f_p/10 and at 10·f_p?",
+    "options": ["0° and -90° exactly", "-45° and -90°", "-5.7° and -84.3°", "-10° and -80°"],
+    "answer": 2,
+    "explanation": "θ = -tan⁻¹(f/f_p): at f_p/10 that's -tan⁻¹(0.1) = -5.7°, at f_p it's -45°, and at 10·f_p it's -84.3°. The straight-line approximation of -45°/decade from 0.1·f_p to 10·f_p is accurate to within ~6°. Magnitude is -3 dB at f_p and falls at -20 dB/decade beyond it. A zero gives the mirror image (+5.7°, +45°, +84.3°, and +20 dB/decade)."
+  },
+  {
+    "id": 154,
+    "category": "signals_and_systems",
+    "question": "A 1 kHz output sine lags its input by 0.225 ms. What is the phase shift?",
+    "options": ["22.5°", "81°", "40.5°", "225°"],
+    "answer": 1,
+    "explanation": "θ = (T_shift / T_period) × 360° = (0.225 ms / 1 ms) × 360° = 81°. Measuring the time shift between zero crossings on a scope is a quick way to check phase at one frequency without a network analyzer."
+  },
+  {
+    "id": 155,
+    "category": "circuit_analysis",
+    "question": "A 0.12 V reading should ideally be 0.10 V on an instrument with a 5 V range. What is the error as a percent of reading and as a percent of full-scale range?",
+    "options": ["20% of reading, 0.4% FSR", "2% of reading, 0.4% FSR", "0.4% of reading, 20% FSR", "20% of reading, 2% FSR"],
+    "answer": 0,
+    "explanation": "% of reading = (0.12 - 0.10) / 0.10 × 100 = 20%. % FSR = (0.12 - 0.10) / 5 × 100 = 0.4%. The same 20 mV error looks very different depending on the reference, so always check which one a datasheet uses. Conversions: 1% = 10,000 ppm, so 10 ppm = 0.001% = 1 milli-percent."
   }
 ]
