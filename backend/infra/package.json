@@ -7,7 +7,9 @@
     "deploy-api": "node deploy-api.mjs",
     "remove-function-url": "node deploy-api.mjs --remove-function-url",
     "status": "node deploy-api.mjs --status",
-    "smoke-test": "node smoke-test.mjs"
+    "smoke-test": "node smoke-test.mjs",
+    "inspect-alias": "node inspect-alias.mjs",
+    "reset-alias": "node reset-alias.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-api-gateway": "3.1152.0",

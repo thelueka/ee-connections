@@ -254,9 +254,10 @@ aws lambda update-function-code --function-name ee-connections-leaderboard `
   --zip-file fileb://leaderboard.zip --region us-west-2
 ```
 
-Reset an alias (for a reinstall that lost its token, or a squatted alias). Their scores stay, and the rightful owner's app re-registers the next time it launches:
+Reset an alias. Use this when someone's app says their alias is "already registered from another install", for example after a reinstall that lost the token, or a squatted alias. It deletes only the registration; their answers and scores stay. Their app re-registers the next time it starts (quit from the tray icon and reopen):
 
 ```powershell
-aws dynamodb delete-item --table-name ee-connections-leaderboard `
-  --key '{\"pk\":{\"S\":\"USER#alias\"},\"sk\":{\"S\":\"PROFILE\"}}' --region us-west-2
+cd backend\infra
+npm run inspect-alias -- <alias>   # read-only: table rows + local progress.json state
+npm run reset-alias -- <alias>
 ```

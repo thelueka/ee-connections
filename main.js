@@ -105,10 +105,11 @@ let registerAttempted = false;
 // Returns { alias, token } or null if the leaderboard can't be used right now.
 async function ensureRegistered(progress) {
   if (!LEADERBOARD_URL) return null;
-  // Credentials belong to one server. A token from the local test server (or an
-  // old deployment) is meaningless elsewhere, so re-register when it changes.
-  const lb = progress.leaderboard && progress.leaderboard.server === LEADERBOARD_URL
-    ? progress.leaderboard : {};
+  // Keep an existing token even if the URL changed: a new address in front of
+  // the same backend (e.g. the move from a Function URL to API Gateway) still
+  // accepts it. If the server really doesn't know it (e.g. a token from the
+  // local test server), syncPending gets a 403 and clears it, and we register.
+  const lb = progress.leaderboard || {};
   if (lb.token && lb.alias) return lb;
   // If the alias was already claimed by another install, retry once per app
   // launch so an admin reset (see backend/deploy.md) fixes it without user action.
@@ -148,20 +149,30 @@ function syncPending() {
     if (!creds) return;
 
     const remaining = [];
+    let tokenRejected = false;
     for (const item of progress.pendingSync) {
+      if (tokenRejected) { remaining.push(item); continue; }
       try {
         const { status } = await apiRequest('POST', '/answer', {
           alias: creds.alias, token: creds.token, ...item
         });
         // 200 = recorded. 409 = server already has it. 400 = permanently
         // invalid (e.g. a queued date that is now too old). Drop all three.
-        if (status >= 500 || status === 403 || status === 429) remaining.push(item);
+        if (status === 403) { tokenRejected = true; remaining.push(item); }
+        else if (status >= 500 || status === 429) remaining.push(item);
       } catch {
         remaining.push(item); // offline or timeout
       }
     }
     const latest = loadProgress();
     latest.pendingSync = remaining;
+    if (tokenRejected) {
+      // This server doesn't recognize our token. Forget it so the next sync
+      // registers again (or reports alias-taken if someone else owns it).
+      console.log('Leaderboard token rejected; will re-register');
+      latest.leaderboard = {};
+      registerAttempted = false;
+    }
     saveProgress(latest);
   })().catch((err) => console.log('Leaderboard sync failed:', err.message))
     .finally(() => { syncInFlight = null; });
