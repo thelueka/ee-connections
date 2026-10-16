@@ -14,11 +14,11 @@ const REMINDER_INTERVAL_MS = 30 * 60 * 1000;
 // Update this after creating your repo (format: https://raw.githubusercontent.com/USERNAME/REPO/main/data/questions.json)
 const REMOTE_QUESTIONS_URL = process.env.QUESTIONS_URL || "https://raw.githubusercontent.com/thelueka/ee-connections/main/data/questions.json";
 
-// Leaderboard Lambda Function URL (account lueka-dev, us-west-2; see
-// backend/deploy.md). LEADERBOARD_URL overrides it, e.g. for the local test
-// server in test-leaderboard.ps1. Set to '' to disable the leaderboard.
+// Leaderboard API: API Gateway + WAF in front of the Lambda (account lueka-dev,
+// us-west-2; see backend/deploy.md). LEADERBOARD_URL overrides it, e.g. for the
+// local test server in test-leaderboard.ps1. Set to '' to disable the leaderboard.
 const LEADERBOARD_URL = (process.env.LEADERBOARD_URL ||
-  'https://u33gtnkqhgvhiwpjmb26ke3lma0gieha.lambda-url.us-west-2.on.aws').replace(/\/+$/, '');
+  'https://3yfrz9m69b.execute-api.us-west-2.amazonaws.com/prod').replace(/\/+$/, '');
 const ALIAS_RE = /^[a-z][a-z0-9]{1,19}$/;
 
 // Local calendar date (YYYY-MM-DD). The day rolls over at local midnight, not UTC.

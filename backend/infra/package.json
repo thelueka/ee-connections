@@ -1,0 +1,19 @@
+{
+  "name": "ee-connections-infra",
+  "private": true,
+  "type": "module",
+  "description": "Deployment scripts for the leaderboard API (not part of the app or the Lambda bundle)",
+  "scripts": {
+    "deploy-api": "node deploy-api.mjs",
+    "remove-function-url": "node deploy-api.mjs --remove-function-url",
+    "status": "node deploy-api.mjs --status",
+    "smoke-test": "node smoke-test.mjs"
+  },
+  "dependencies": {
+    "@aws-sdk/client-api-gateway": "3.1152.0",
+    "@aws-sdk/client-dynamodb": "3.1152.0",
+    "@aws-sdk/client-lambda": "3.1152.0",
+    "@aws-sdk/client-wafv2": "3.1152.0",
+    "@aws-sdk/credential-providers": "3.1152.0"
+  }
+}

@@ -1,6 +1,6 @@
 {
   "name": "ee-connections",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Daily electrical engineering trivia and practice questions",
   "main": "main.js",
   "scripts": {

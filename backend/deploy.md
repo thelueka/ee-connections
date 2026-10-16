@@ -134,10 +134,12 @@ aws lambda update-function-code \
 ## Architecture
 
 ```
-App ──POST /register, POST /answer, GET /leaderboard──▶ Lambda (Function URL) ──▶ DynamoDB
-                                                           │
-                                         fetches questions.json from GitHub to grade answers
+App ──POST /register, POST /answer, GET /leaderboard──▶ AWS WAF ──▶ API Gateway (REST, prod stage) ──▶ Lambda ──▶ DynamoDB
+                                                                                                      │
+                                                                    fetches questions.json from GitHub to grade answers
 ```
+
+The Lambda is **not** public. Its only resource-policy statement lets `apigateway.amazonaws.com` invoke it, scoped by `SourceArn` to this API's `prod` stage. An earlier version used a public Lambda Function URL (`Principal: "*"`), which security tooling flags as Critical; don't bring that back.
 
 - Players are identified by Amazon alias, taken from the Windows login name (override with the `EE_ALIAS` environment variable).
 - On first use each install registers its alias and gets a secret token. The first install to register an alias owns it.
@@ -153,8 +155,8 @@ The code is in `backend/leaderboard/` (`leaderboard.mjs` is the logic, `index.mj
 |---|---|
 | Account | `lueka-dev` (652656942138), us-west-2 |
 | CLI profile | `lueka-dev` (`credential_process = ada credentials print --account 652656942138 --provider isengard --role lueka-dev`) |
-| URL | `https://u33gtnkqhgvhiwpjmb26ke3lma0gieha.lambda-url.us-west-2.on.aws` |
-| Resources | table `ee-connections-leaderboard`, role `ee-connections-leaderboard-role`, function `ee-connections-leaderboard` |
+| URL | `https://3yfrz9m69b.execute-api.us-west-2.amazonaws.com/prod` |
+| Resources | table `ee-connections-leaderboard`, role `ee-connections-leaderboard-role`, function `ee-connections-leaderboard`, REST API `ee-connections-leaderboard` (`3yfrz9m69b`), WAF web ACL `ee-connections-leaderboard-acl` |
 
 Add `--profile lueka-dev` to the commands below.
 
@@ -201,32 +203,46 @@ aws lambda put-function-concurrency --function-name ee-connections-leaderboard `
   --reserved-concurrent-executions 5 --region us-west-2
 ```
 
-### 4. Function URL
+### 4. API Gateway + WAF
+
+Scripted with the AWS SDK in `backend/infra/` (the AWS CLI on this machine is too old for some of these calls). It's safe to re-run: each step reuses what exists.
 
 ```powershell
-aws lambda create-function-url-config --function-name ee-connections-leaderboard `
-  --auth-type NONE --region us-west-2
-aws lambda add-permission --function-name ee-connections-leaderboard `
-  --statement-id public-url --action lambda:InvokeFunctionUrl --principal "*" `
-  --function-url-auth-type NONE --region us-west-2
-aws lambda add-permission --function-name ee-connections-leaderboard `
-  --statement-id public-url-invoke --action lambda:InvokeFunction --principal "*" `
-  --invoked-via-function-url --region us-west-2
+cd backend\infra
+npm install
+$env:AWS_PROFILE = "lueka-dev"   # default if unset
+npm run deploy-api               # prints the API URL at the end
+npm run status                   # show what exists, change nothing
 ```
 
-A public (`NONE`) URL needs **both** statements. With only the first, every request returns `403 Forbidden`. The second is limited to calls made through the URL, so it doesn't open other ways to invoke the function. `--invoked-via-function-url` needs a recent AWS CLI (2.27.27 doesn't have it). With an older CLI, use the console (function → Configuration → Permissions → Add permissions → Function URL → NONE), or the SDK's `AddPermissionCommand` with `InvokedViaFunctionUrl: true`. The SDK route is how the current deployment was done.
+`deploy-api` creates:
+- **REST API** `ee-connections-leaderboard` (regional) with `/{proxy+}` → `ANY` → Lambda proxy integration, deployed to stage `prod`. Stage throttling is 10 requests/s, burst 20.
+- **Lambda permission** `apigateway-invoke`: principal `apigateway.amazonaws.com`, `SourceArn arn:aws:execute-api:us-west-2:<account>:<api-id>/prod/*/*`.
+- **WAF web ACL** `ee-connections-leaderboard-acl`, associated with the stage:
+  - rate limit of 1,000 requests per 5 minutes per IP (kept high because corporate egress IPs are shared)
+  - AWS managed IP reputation list
+  - AWS managed common rule set
+  - a rule blocking every path except `/prod/register`, `/prod/answer` and `/prod/leaderboard`
 
-The URL is reachable from the internet. Writes need a per-alias token, but anyone can read the board or claim an alias that hasn't registered yet. Nothing beyond alias and scores is stored.
+WAF costs about $5/month for the web ACL plus about $1/month per rule (four here), plus $0.60 per million requests. API Gateway and Lambda at this volume stay in the cents.
 
-Smoke test (should return a 400 about the date, which shows the function and table are wired up):
+If an old public Function URL still exists, remove it along with its `"*"` policy statements:
 
 ```powershell
-curl.exe "https://YOUR_URL.lambda-url.us-west-2.on.aws/leaderboard?alias=test&date=bad"
+npm run remove-function-url
+```
+
+The API is still reachable from the internet. Writes need a per-alias token, but anyone can read the board or claim an alias that hasn't registered yet. Nothing beyond alias and scores is stored.
+
+End-to-end check with a throwaway alias. It registers, answers, checks the board and blocked routes, then deletes its own data:
+
+```powershell
+npm run smoke-test -- https://<api-id>.execute-api.us-west-2.amazonaws.com/prod
 ```
 
 ### 5. Point the app at it
 
-Put the URL (no trailing slash) as the default `LEADERBOARD_URL` in `main.js`, then rebuild (`npm run build`) and redistribute the installer. Code changes don't reach existing installs through the GitHub question sync; people need the new build.
+Put the API URL (including `/prod`, no trailing slash) as the default `LEADERBOARD_URL` in `main.js`, then rebuild (`npm run build`) and redistribute the installer. Code changes don't reach existing installs through the GitHub question sync; people need the new build.
 
 ## Operations
 
