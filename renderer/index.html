@@ -29,6 +29,24 @@
       </div>
     </div>
 
+    <!-- View switcher -->
+    <div class="view-tabs" role="tablist">
+      <button class="view-tab active" id="tab-today" role="tab" aria-selected="true">Today</button>
+      <button class="view-tab" id="tab-board" role="tab" aria-selected="false">🏆 Leaderboard</button>
+    </div>
+
+    <!-- Leaderboard (hidden by default) -->
+    <div class="board-card hidden" id="board-card" role="tabpanel" aria-labelledby="tab-board">
+      <div class="board-toggle" role="group" aria-label="Leaderboard period">
+        <button class="board-period active" id="period-weekly" aria-pressed="true">This week</button>
+        <button class="board-period" id="period-alltime" aria-pressed="false">All time</button>
+      </div>
+      <div class="board-subtitle" id="board-subtitle"></div>
+      <ol class="board-list" id="board-list" aria-live="polite"></ol>
+      <div class="board-me hidden" id="board-me"></div>
+      <div class="board-status" id="board-status">Loading…</div>
+    </div>
+
     <!-- Question card -->
     <div class="question-card" id="question-card">
       <div class="category-badge" id="category-badge">Loading...</div>

@@ -11,7 +11,9 @@ npm start
 
 ## Auto-Start on Login (Windows)
 
-Want the app to pop up automatically every time you log in? Run the setup script once:
+The installed app (from the `.exe` installer) turns on start-at-login the first time it runs. Toggle it with **Start at login** in the tray icon's menu; uninstalling removes it. It also deletes any old dev shortcut created by `setup-autostart.ps1`.
+
+The scripts below are only for running from source (`npm start`). To make a source checkout pop up at login, run the setup script once:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File setup-autostart.ps1
@@ -48,6 +50,7 @@ The installer will appear in the `dist/` folder.
 - 🎨 Clean, dark-themed UI
 - 📦 Easily distributable as a standalone desktop app
 - 🚀 Auto-start on login (optional, Windows)
+- 🏆 Weekly and all-time leaderboards by Amazon alias (setup in `backend/deploy.md`)
 
 ## Adding Questions
 

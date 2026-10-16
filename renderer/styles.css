@@ -250,6 +250,143 @@ body {
   color: #8892b0;
 }
 
+/* View tabs */
+.view-tabs {
+  display: flex;
+  gap: 8px;
+  margin: -12px 0 16px;
+  flex-shrink: 0;
+}
+
+.view-tab,
+.board-period {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #8892b0;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-tab:hover,
+.board-period:hover {
+  border-color: rgba(100, 255, 218, 0.3);
+  color: #ccd6f6;
+}
+
+.view-tab.active,
+.board-period.active {
+  background: rgba(100, 255, 218, 0.12);
+  border-color: #64ffda;
+  color: #64ffda;
+}
+
+.view-tab:focus-visible,
+.board-period:focus-visible,
+.option-btn:focus-visible {
+  outline: 2px solid #64ffda;
+  outline-offset: 2px;
+}
+
+/* Leaderboard */
+.board-card {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+
+.board-toggle {
+  display: flex;
+  gap: 8px;
+}
+
+.board-subtitle {
+  font-size: 12px;
+  color: #8892b0;
+  text-align: center;
+}
+
+/* The list scrolls; the "your rank" line below it stays visible */
+.board-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.board-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  font-size: 14px;
+  color: #ccd6f6;
+}
+
+.board-row.me {
+  border-color: #64ffda;
+  background: rgba(100, 255, 218, 0.08);
+}
+
+.board-rank {
+  width: 28px;
+  font-weight: 700;
+  color: #64ffda;
+  text-align: right;
+}
+
+.board-alias {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.board-score {
+  font-weight: 700;
+  color: #ccd6f6;
+}
+
+.board-score small {
+  font-weight: 400;
+  color: #8892b0;
+  margin-left: 4px;
+}
+
+.board-me {
+  font-size: 13px;
+  color: #8892b0;
+  text-align: center;
+}
+
+.board-status {
+  font-size: 13px;
+  color: #8892b0;
+  text-align: center;
+  padding: 8px 0;
+}
+
+/* While the leaderboard is showing, hide today's cards without losing their state */
+.app-container.show-board .question-card,
+.app-container.show-board .result-card,
+.app-container.show-board .done-card {
+  display: none !important;
+}
+
 /* Utility */
 .hidden {
   display: none !important;

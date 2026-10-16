@@ -1,6 +1,6 @@
 {
   "name": "ee-connections",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Daily electrical engineering trivia and practice questions",
   "main": "main.js",
   "scripts": {
@@ -19,17 +19,23 @@
       "main.js",
       "preload.js",
       "renderer/**/*",
-      "data/**/*"
+      "data/**/*",
+      "assets/**/*"
     ],
     "win": {
       "target": "nsis",
-      "icon": "renderer/icon.ico"
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "include": "build/installer.nsh"
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "assets/icon.png"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "icon": "assets/icon.png"
     }
   },
   "devDependencies": {

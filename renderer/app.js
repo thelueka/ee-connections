@@ -35,8 +35,11 @@ function getTodayQuestion(questions, progress) {
   return null;
 }
 
+// Local calendar date (YYYY-MM-DD); must match localDate() in main.js.
 function getToday() {
-  return new Date().toISOString().split('T')[0];
+  const d = new Date();
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
 async function init() {
@@ -185,6 +188,133 @@ function showAllComplete() {
 function formatCategory(category) {
   return category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
+
+// ---------------------------------------------------------------------------
+// Leaderboard
+// ---------------------------------------------------------------------------
+
+let boardData = null;
+let boardPeriod = 'weekly';
+
+const BOARD_MESSAGES = {
+  disabled: 'The leaderboard isn\'t set up yet.',
+  'no-alias': 'Couldn\'t detect your Amazon alias from this computer\'s login.',
+  'alias-taken': 'Your alias is already registered from another install. Ask the app owner to reset it.',
+  offline: 'Can\'t reach the leaderboard right now. Your answers will sync when you\'re back online.',
+  unavailable: 'The leaderboard is unavailable right now. Try again later.'
+};
+
+function setActiveTab(showBoard) {
+  document.querySelector('.app-container').classList.toggle('show-board', showBoard);
+  document.getElementById('board-card').classList.toggle('hidden', !showBoard);
+  const today = document.getElementById('tab-today');
+  const board = document.getElementById('tab-board');
+  today.classList.toggle('active', !showBoard);
+  board.classList.toggle('active', showBoard);
+  today.setAttribute('aria-selected', String(!showBoard));
+  board.setAttribute('aria-selected', String(showBoard));
+  if (showBoard) loadLeaderboard();
+}
+
+function setPeriod(period) {
+  boardPeriod = period;
+  for (const [id, p] of [['period-weekly', 'weekly'], ['period-alltime', 'allTime']]) {
+    const btn = document.getElementById(id);
+    btn.classList.toggle('active', p === period);
+    btn.setAttribute('aria-pressed', String(p === period));
+  }
+  renderBoard();
+}
+
+async function loadLeaderboard() {
+  const status = document.getElementById('board-status');
+  status.textContent = 'Loading…';
+  status.classList.remove('hidden');
+  boardData = await window.api.getLeaderboard();
+  renderBoard();
+}
+
+function formatWeek(monday) {
+  const start = new Date(`${monday}T00:00:00`);
+  const end = new Date(start);
+  end.setDate(start.getDate() + 6);
+  const fmt = { month: 'short', day: 'numeric' };
+  return `${start.toLocaleDateString(undefined, fmt)} – ${end.toLocaleDateString(undefined, fmt)}`;
+}
+
+// Builds a row with textContent only; aliases come from the network.
+function boardRow(entry, myAlias) {
+  const li = document.createElement('li');
+  li.className = 'board-row' + (entry.alias === myAlias ? ' me' : '');
+
+  const rankEl = document.createElement('span');
+  rankEl.className = 'board-rank';
+  rankEl.textContent = entry.rank;
+
+  const aliasEl = document.createElement('span');
+  aliasEl.className = 'board-alias';
+  aliasEl.textContent = entry.alias === myAlias ? `${entry.alias} (you)` : entry.alias;
+
+  const scoreEl = document.createElement('span');
+  scoreEl.className = 'board-score';
+  scoreEl.textContent = entry.correct;
+  const of = document.createElement('small');
+  of.textContent = `/ ${entry.answered}`;
+  scoreEl.appendChild(of);
+  scoreEl.setAttribute('aria-label', `${entry.correct} correct out of ${entry.answered}`);
+
+  li.append(rankEl, aliasEl, scoreEl);
+  return li;
+}
+
+function renderBoard() {
+  const list = document.getElementById('board-list');
+  const me = document.getElementById('board-me');
+  const status = document.getElementById('board-status');
+  const subtitle = document.getElementById('board-subtitle');
+  list.innerHTML = '';
+  me.classList.add('hidden');
+  subtitle.textContent = '';
+
+  if (!boardData) return;
+  if (boardData.status !== 'ok') {
+    status.textContent = BOARD_MESSAGES[boardData.status] || BOARD_MESSAGES.unavailable;
+    status.classList.remove('hidden');
+    return;
+  }
+
+  const board = boardData[boardPeriod];
+  subtitle.textContent = boardPeriod === 'weekly'
+    ? `Correct answers, ${formatWeek(boardData.week)} · ${board.players} players`
+    : `Correct answers since the leaderboard started · ${board.players} players`;
+
+  if (board.top.length === 0) {
+    status.textContent = boardPeriod === 'weekly'
+      ? 'No answers yet this week. Be the first.'
+      : 'No answers yet.';
+    status.classList.remove('hidden');
+    return;
+  }
+  status.classList.add('hidden');
+
+  for (const entry of board.top) list.appendChild(boardRow(entry, boardData.alias));
+
+  const inTop = board.top.some((e) => e.alias === boardData.alias);
+  if (board.me && !inTop) {
+    me.textContent = `You're #${board.me.rank} of ${board.players} with ${board.me.correct} correct.`;
+    me.classList.remove('hidden');
+  } else if (!board.me) {
+    me.textContent = boardPeriod === 'weekly'
+      ? 'Answer today\'s question to get on this week\'s board.'
+      : 'Answer a question to get on the board.';
+    me.classList.remove('hidden');
+  }
+}
+
+document.getElementById('tab-today').addEventListener('click', () => setActiveTab(false));
+document.getElementById('tab-board').addEventListener('click', () => setActiveTab(true));
+document.getElementById('period-weekly').addEventListener('click', () => setPeriod('weekly'));
+document.getElementById('period-alltime').addEventListener('click', () => setPeriod('allTime'));
 
 // Initialize the app
 init();
